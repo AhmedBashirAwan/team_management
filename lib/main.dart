@@ -1,24 +1,30 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'package:team_management/src/auth/wellcome/screen/welcom.dart';
+import 'package:team_management/theme/themechanger.dart';
+import 'package:team_management/theme/themedata.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MaterialApp(
-    home: MyApp(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ThemeChanger())],
+      child: Builder(builder: (BuildContext context) {
+        final themeChanger = Provider.of<ThemeChanger>(context);
+        return MaterialApp(
+          title: 'Flutter Theming Tutorials',
+          theme: ThemeDataRepository.lightTheme,
+          darkTheme: ThemeDataRepository.darkTheme,
+          themeMode: themeChanger.themeMode,
+          debugShowCheckedModeBanner: false,
+          home: WelcomeScreen(),
+        );
+      }),
+    );
   }
 }
