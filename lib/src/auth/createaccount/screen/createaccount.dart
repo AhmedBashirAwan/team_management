@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
-
-import '../../verification/verification.dart';
+import 'package:team_management/src/auth/login/screen/login.dart';
+import 'package:team_management/src/auth/register/register.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -10,25 +11,61 @@ class CreateAccount extends StatefulWidget {
   State<CreateAccount> createState() => _CreateAccountState();
 }
 
+final firstnameController = TextEditingController();
+final lastnameController = TextEditingController();
+
+final emailController = TextEditingController();
+final passwordController = TextEditingController();
+
 class _CreateAccountState extends State<CreateAccount> {
   bool _isChecked = false;
+
+  // @override
+  // void dispose() {
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   lastnameController.dispose();
+  //   firstnameController.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Create an Account,',
-                style: Theme.of(context).textTheme.titleMedium,
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.arrow_back))
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Create an Account,',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
               ),
               Text(
                 'Create an account, it less then a minute. enter your email and password.',
                 style: Theme.of(context).textTheme.titleSmall,
+              ),
+              SizedBox(
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -43,15 +80,11 @@ class _CreateAccountState extends State<CreateAccount> {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: '  First Name',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
@@ -73,6 +106,9 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -91,11 +127,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: '  Last Name ',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
@@ -118,6 +150,9 @@ class _CreateAccountState extends State<CreateAccount> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: getHeight(context) * 0.02,
+              ),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -130,16 +165,13 @@ class _CreateAccountState extends State<CreateAccount> {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: emailController,
                         onSubmitted: (value) {},
                         style: const TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: '  Email',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
@@ -162,42 +194,11 @@ class _CreateAccountState extends State<CreateAccount> {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2.0,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        onSubmitted: (value) {},
-                        style: const TextStyle(color: Colors.black),
-                        cursorColor: Colors.blue,
-                        decoration: InputDecoration(
-                          hintText: '  Workspace Name',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          disabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              SizedBox(
+                height: getHeight(context) * 0.02,
+              ),
+              SizedBox(
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -211,16 +212,13 @@ class _CreateAccountState extends State<CreateAccount> {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: passwordController,
                         onSubmitted: (value) {},
                         style: const TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: '  Password',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
@@ -251,13 +249,17 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               CustomButtons(
                 buttonText: "Create An Account",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Verification(),
-                    ),
+                onPressed: () async {
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
                   );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Verification(),
+                  //   ),
+                  // );
                 },
               ),
               Padding(

@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/forgetpassword/forgetpassword.dart';
 import 'package:team_management/src/auth/register/register.dart';
-
+import 'package:team_management/src/dashboard/screen/dashboard.dart';
 import '../../../../customised/widgets/attachaccountbuttons.dart';
 import '../../../../customised/widgets/buttons.dart';
 
@@ -15,11 +16,18 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body: SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -65,16 +73,13 @@ class _LoginState extends State<Login> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: emailController,
                       onSubmitted: (value) {},
                       style: const TextStyle(color: Colors.black),
                       cursorColor: Colors.blue,
                       decoration: InputDecoration(
                         hintText: '  Enter Email',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                        ),
+                        hintStyle: Theme.of(context).textTheme.titleSmall,
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
@@ -112,16 +117,13 @@ class _LoginState extends State<Login> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: passwordController,
                       onSubmitted: (value) {},
                       style: TextStyle(color: Colors.black),
                       cursorColor: Colors.blue,
                       decoration: InputDecoration(
                         hintText: '  Password',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                        ),
+                        hintStyle: Theme.of(context).textTheme.titleSmall,
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
@@ -145,7 +147,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -159,9 +161,10 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: Text(
-                      'Forget Password ?',
+                      'Forget Password?',
                       style: TextStyle(
                         fontSize: 14,
+                        fontWeight: FontWeight.bold,
                         color: Colors.blue.shade600,
                         decoration: TextDecoration.underline,
                       ),
@@ -172,10 +175,20 @@ class _LoginState extends State<Login> {
             ),
             CustomButtons(
               buttonText: "Login",
-              onPressed: () {},
+              onPressed: () {
+                FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Dashboard(),
+                  ),
+                );
+              },
             ),
             Divider(
-              height: 30,
+              height: getHeight(context) * 0.03,
               color: Colors.green,
               thickness: 1,
             ),
@@ -201,7 +214,7 @@ class _LoginState extends State<Login> {
               onPressed: () {},
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
