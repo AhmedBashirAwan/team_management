@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import '../../../../customised/widgets/buttons.dart';
 
@@ -39,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Registeration(),
+                              builder: (context) => CreateAccount(),
                             ),
                           );
                         },

@@ -7,7 +7,6 @@ import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/src/dashboard/screen/dashboard.dart';
 import 'package:team_management/theme/themechanger.dart';
 import 'package:team_management/theme/themedata.dart';
-import 'customised/widgets/bottomnavigation.dart';
 import 'firebase_options.dart';
 
 void main() async {

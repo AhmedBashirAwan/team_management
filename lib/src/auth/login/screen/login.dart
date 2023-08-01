@@ -6,6 +6,7 @@ import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/screen/dashboard.dart';
 import '../../../../customised/widgets/attachaccountbuttons.dart';
 import '../../../../customised/widgets/buttons.dart';
+import '../../../../globals.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,10 +16,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -73,7 +77,7 @@ class _LoginState extends State<Login> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: emailController,
+                      controller: _emailController,
                       onSubmitted: (value) {},
                       style: const TextStyle(color: Colors.black),
                       cursorColor: Colors.blue,
@@ -117,7 +121,7 @@ class _LoginState extends State<Login> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: passwordController,
+                      controller: _passwordController,
                       onSubmitted: (value) {},
                       style: TextStyle(color: Colors.black),
                       cursorColor: Colors.blue,
@@ -175,10 +179,12 @@ class _LoginState extends State<Login> {
             ),
             CustomButtons(
               buttonText: "Login",
-              onPressed: () {
-                FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim());
+              onPressed: () async {
+                UserCredential userCredential = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim());
+                USER_ID = userCredential.user!.uid;
                 Navigator.push(
                   context,
                   MaterialPageRoute(

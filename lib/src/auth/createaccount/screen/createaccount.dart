@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
@@ -11,23 +12,31 @@ class CreateAccount extends StatefulWidget {
   State<CreateAccount> createState() => _CreateAccountState();
 }
 
-final firstnameController = TextEditingController();
-final lastnameController = TextEditingController();
-
-final emailController = TextEditingController();
-final passwordController = TextEditingController();
-
 class _CreateAccountState extends State<CreateAccount> {
   bool _isChecked = false;
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final frameworkController = TextEditingController();
+  final specialController = TextEditingController();
 
-  // @override
-  // void dispose() {
-  //   emailController.dispose();
-  //   passwordController.dispose();
-  //   lastnameController.dispose();
-  //   firstnameController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    fullNameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> addUserDetails(String fullName, String email) async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    Map<String, dynamic> payload = {
+      'userId': userId,
+      'email': email,
+      'fullName': fullName,
+    };
+    await FirebaseFirestore.instance.collection('userData').add(payload);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +89,11 @@ class _CreateAccountState extends State<CreateAccount> {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
+                        controller: fullNameController,
                         style: TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: '  First Name',
+                          hintText: '  Name',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -108,50 +118,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.02,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2.0,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        onSubmitted: (value) {},
-                        style: const TextStyle(color: Colors.black),
-                        cursorColor: Colors.blue,
-                        decoration: InputDecoration(
-                          hintText: '  Last Name ',
-                          hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          disabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconTheme(
-                      data: IconThemeData(color: Colors.blue.shade700),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.check_circle_outline_outlined),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: getHeight(context) * 0.02,
+                height: getHeight(context) * 0.01,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -195,10 +162,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.02,
-              ),
-              SizedBox(
-                height: getHeight(context) * 0.02,
+                height: getHeight(context) * 0.01,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -231,8 +195,106 @@ class _CreateAccountState extends State<CreateAccount> {
                         ),
                       ),
                     ),
+                    IconTheme(
+                      data: IconThemeData(color: Colors.blue.shade700),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.remove_red_eye),
+                      ),
+                    )
                   ],
                 ),
+              ),
+              SizedBox(
+                height: getHeight(context) * 0.01,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 2.0,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onSubmitted: (value) {},
+                        controller: specialController,
+                        style: TextStyle(color: Colors.black),
+                        cursorColor: Colors.blue,
+                        decoration: InputDecoration(
+                          hintText: '  Specialities',
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          disabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconTheme(
+                      data: IconThemeData(color: Colors.blue.shade700),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.arrow_drop_down),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: getHeight(context) * 0.01,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 2.0,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onSubmitted: (value) {},
+                        controller: frameworkController,
+                        style: TextStyle(color: Colors.black),
+                        cursorColor: Colors.blue,
+                        decoration: InputDecoration(
+                          hintText: '  FrameWork',
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          disabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconTheme(
+                      data: IconThemeData(color: Colors.blue.shade700),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.arrow_drop_down),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: getHeight(context) * 0.01,
               ),
               Row(
                 children: [
@@ -247,19 +309,24 @@ class _CreateAccountState extends State<CreateAccount> {
                   Text('I agree with terms and conditions'),
                 ],
               ),
+              SizedBox(
+                height: getHeight(context) * 0.01,
+              ),
               CustomButtons(
                 buttonText: "Create An Account",
-                onPressed: () async {
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                onPressed: () {
+                  FirebaseAuth.instance.createUserWithEmailAndPassword(
                     email: emailController.text.trim(),
                     password: passwordController.text.trim(),
                   );
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Verification(),
-                  //   ),
-                  // );
+                  addUserDetails(fullNameController.text.trim(),
+                      emailController.text.trim());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                  );
                 },
               ),
               Padding(
@@ -316,3 +383,11 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 }
+
+Map<String, List<String>> speacialities = {
+  'Front End developer': ['Flutter', 'CSS', 'HTML'],
+  'Back End developer': ['Java', 'Python', 'JavaScript'],
+  'Designer': ['Figma', 'Adobe XD'],
+  'QA': ['Quality Assurance'],
+  'Database Engineer': ['Mysql', 'MongoDB']
+};

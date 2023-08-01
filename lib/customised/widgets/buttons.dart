@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_management/src/auth/register/register.dart';
 
 class CustomButtons extends StatelessWidget {
   final String buttonText;
@@ -16,7 +17,7 @@ class CustomButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 55,
-      width: 400,
+      width: getwidth(context),
       child: ElevatedButton(
         onPressed: onPressed, // Use the provided onPressed function
         style: ElevatedButton.styleFrom(

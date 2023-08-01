@@ -1,23 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 
 import '../login/screen/login.dart';
 
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({super.key});
+  const ForgetPassword({Key? key}) : super(key: key);
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -25,24 +34,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   children: [
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 2.0,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
                           ),
-                        ),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Login(),
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.arrow_back)))
+                        );
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    ),
                   ],
                 ),
               ),
@@ -50,15 +52,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 children: [
                   Text(
                     'Forget Password',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  'Dont worry! it happens. Please Enter the address associated to your Account',
-                  style: Theme.of(context).textTheme.titleSmall,
+                  'Don\'t worry! It happens. Please enter the address associated with your Account.',
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
               Padding(
@@ -75,11 +77,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     children: [
                       Expanded(
                         child: TextField(
-                          onSubmitted: (value) {},
-                          style: const TextStyle(color: Colors.black),
+                          controller: _emailController,
+                          style: TextStyle(color: Colors.black),
                           cursorColor: Colors.blue,
                           decoration: InputDecoration(
-                            hintText: ' Email',
+                            hintText: 'Email',
                             hintStyle: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w400,
@@ -111,7 +113,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               Spacer(),
               CustomButtons(
                 buttonText: 'Send Code',
-                onPressed: () {},
+                onPressed: () async {
+                  await FirebaseAuth.instance.sendPasswordResetEmail(
+                      email: _emailController.text.trim());
+                },
               ),
             ],
           ),
