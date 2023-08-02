@@ -185,6 +185,7 @@ class _LoginState extends State<Login> {
                         email: _emailController.text.trim(),
                         password: _passwordController.text.trim());
                 USER_ID = userCredential.user!.uid;
+                print(USER_ID);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

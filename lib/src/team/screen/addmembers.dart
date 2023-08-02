@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../chating/components/teamlist.dart';
 
+// ignore: must_be_immutable
 class AddMembers extends StatefulWidget {
   String teamId;
   AddMembers({Key? key, required this.teamId}) : super(key: key);
@@ -11,9 +14,10 @@ class AddMembers extends StatefulWidget {
 
 class _AddMembersState extends State<AddMembers> {
   List<String> selectedMembers = [];
+
   TextEditingController _searchController = TextEditingController();
 
-  void addMembers(List<String> selectedMembers) async {
+  Future<List<String>> addMembers(List<String> selectedMembers) async {
     final DocumentReference documentReference =
         FirebaseFirestore.instance.collection('teamData').doc(widget.teamId);
 
@@ -21,6 +25,8 @@ class _AddMembersState extends State<AddMembers> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.green,
         content: Text("Members added to team ${widget.teamId}")));
+
+    return selectedMembers;
   }
 
   static Future<List<Map<String, dynamic>>> getUsersList() async {
@@ -116,14 +122,17 @@ class _AddMembersState extends State<AddMembers> {
                     child: CircularProgressIndicator(),
                   );
                 }
-
                 if (snapshot.hasError) {
                   return Center(
                     child: Text('Error occurred'),
                   );
                 }
-
                 List<Map<String, dynamic>> userDataList = snapshot.data ?? [];
+                userDataList = userDataList
+                    .where((userData) =>
+                        userData['userId'] !=
+                        FirebaseAuth.instance.currentUser!.uid)
+                    .toList();
 
                 return SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,
@@ -139,7 +148,7 @@ class _AddMembersState extends State<AddMembers> {
                       return GestureDetector(
                         onTap: () {
                           selectedMembers.add(userData['userId']);
-                          print(selectedMembers);
+                          // print(selectedMembers);
                         },
                         child: Container(
                           margin: const EdgeInsets.only(top: 10),
@@ -217,9 +226,17 @@ class _AddMembersState extends State<AddMembers> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FloatingActionButton(
-                  onPressed: () {
-                    print(widget.teamId);
-                    addMembers(selectedMembers);
+                  onPressed: () async {
+                    List<String> selectedTeam =
+                        await addMembers(selectedMembers);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TeamList(selectedMembers: selectedTeam),
+                      ),
+                    );
                   },
                   child: Icon(Icons.check),
                 ),

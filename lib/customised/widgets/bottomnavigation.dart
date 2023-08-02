@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_management/customised/widgets/addprojects.dart';
+import 'package:team_management/src/projects/components.dart/addprojects.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/chating/components/teamlist.dart';
 import 'package:team_management/src/tasks/tasks.dart';
@@ -24,12 +24,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TeamList(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => TeamList(),
+                //   ),
+                // );
               },
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,
@@ -70,12 +70,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
             ),
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Tasks(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => Tasks(),
+                //   ),
+                // );
               },
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,

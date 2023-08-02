@@ -5,6 +5,8 @@ import 'package:team_management/customised/widgets/buttons.dart';
 import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/src/auth/register/register.dart';
 
+import '../../../../globals.dart';
+
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
 
@@ -17,8 +19,6 @@ class _CreateAccountState extends State<CreateAccount> {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final frameworkController = TextEditingController();
-  final specialController = TextEditingController();
 
   @override
   void dispose() {
@@ -29,9 +29,8 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   Future<void> addUserDetails(String fullName, String email) async {
-    String userId = FirebaseAuth.instance.currentUser!.uid;
     Map<String, dynamic> payload = {
-      'userId': userId,
+      'userId': USER_ID,
       'email': email,
       'fullName': fullName,
     };
@@ -221,7 +220,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        controller: specialController,
+                        controller: fullNameController,
                         style: TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
@@ -265,7 +264,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        controller: frameworkController,
+                        controller: fullNameController,
                         style: TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
@@ -314,12 +313,14 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               CustomButtons(
                 buttonText: "Create An Account",
-                onPressed: () {
-                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                onPressed: () async {
+                  UserCredential userCredential = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
                     email: emailController.text.trim(),
                     password: passwordController.text.trim(),
                   );
-                  addUserDetails(fullNameController.text.trim(),
+                  USER_ID = userCredential.user!.uid;
+                  await addUserDetails(fullNameController.text.trim(),
                       emailController.text.trim());
                   Navigator.push(
                     context,

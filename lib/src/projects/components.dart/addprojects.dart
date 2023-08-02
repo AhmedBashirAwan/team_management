@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/globals.dart';
+import 'package:team_management/src/projects/screens/moduels.dart';
 
-import '../../src/auth/register/register.dart';
+import '../../auth/register/register.dart';
 
 class AddProject extends StatefulWidget {
   const AddProject({super.key});
@@ -13,13 +16,17 @@ class AddProject extends StatefulWidget {
 class _AddProjectState extends State<AddProject> {
   final projectTitleController = TextEditingController();
 
-  Future<void> createProject(
+  Future<String> createProject(
     String projectTitle,
   ) async {
     Map<String, dynamic> payload = {
       'title': projectTitle,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
     };
-    await FirebaseFirestore.instance.collection('projects').add(payload);
+    dynamic response =
+        await FirebaseFirestore.instance.collection('projects').add(payload);
+
+    return response.id.toString();
   }
 
   @override
@@ -108,9 +115,18 @@ class _AddProjectState extends State<AddProject> {
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () async {
-                        await createProject(
+                        String projectId = await createProject(
                           projectTitleController.text.trim(),
                         );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Moduels(
+                              projectId: projectId,
+                            ),
+                          ),
+                        );
+                        print(projectId);
                       },
                     )),
               ),
