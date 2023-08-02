@@ -6,6 +6,7 @@ import 'package:team_management/src/tasks/tasks.dart';
 
 import '../../../customised/widgets/bottomnavigation.dart';
 
+// ignore: must_be_immutable
 class Moduels extends StatefulWidget {
   Moduels({super.key, required this.projectId});
   String projectId;

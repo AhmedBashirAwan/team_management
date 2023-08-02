@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:team_management/globals.dart';
 import 'package:team_management/src/projects/screens/moduels.dart';
 
 import '../../auth/register/register.dart';

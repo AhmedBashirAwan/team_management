@@ -33,7 +33,7 @@ class DashboardState extends State<Dashboard> {
           .collection('projects')
           .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
-
+      moduleSnapshot;
       if (moduleSnapshot.docs.isNotEmpty) {
         setState(() {
           projectNames =
@@ -46,6 +46,13 @@ class DashboardState extends State<Dashboard> {
     } catch (error) {
       print("Error fetching projects: $error");
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(FirebaseAuth.instance.currentUser!.uid);
+    userProjects();
   }
 
   @override

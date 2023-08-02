@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team_management/src/projects/components.dart/addprojects.dart';
 import 'package:team_management/src/auth/register/register.dart';
-import 'package:team_management/src/chating/components/teamlist.dart';
-import 'package:team_management/src/tasks/tasks.dart';
 import 'package:team_management/src/team/screen/team.dart';
 
 class CustomNavigationBar extends StatefulWidget {
