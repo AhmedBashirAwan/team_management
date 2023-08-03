@@ -126,8 +126,7 @@ class DashboardState extends State<Dashboard> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.22,
                         width: MediaQuery.of(context).size.width,

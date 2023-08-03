@@ -4,9 +4,11 @@ import 'package:team_management/customised/widgets/bottomnavigation.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import '../../Dashboard/screen/dashboard.dart';
 
+// ignore: must_be_immutable
 class TeamList extends StatefulWidget {
-  final List<String>? selectedMembers;
-  TeamList({Key? key, this.selectedMembers}) : super(key: key);
+  List<String>? selectedMembers;
+  String? teamId;
+  TeamList({Key? key, this.selectedMembers, this.teamId}) : super(key: key);
 
   @override
   State<TeamList> createState() => _TeamListState();
@@ -21,6 +23,25 @@ class _TeamListState extends State<TeamList> {
     super.initState();
     teamMembers = widget.selectedMembers ?? [];
     getTeamMembersInfo();
+  }
+
+  Future<String> createTeamLead(String teamLead) async {
+    try {
+      Map<String, dynamic> payload = {
+        'teamLead': teamLead,
+      };
+
+      DocumentReference docRef = FirebaseFirestore.instance
+          .collection('teamData')
+          .doc(widget
+              .teamId); // Assuming widget.teamId is the desired document ID
+
+      await docRef.update(payload);
+
+      return 'Team lead updated successfully';
+    } catch (error) {
+      return 'Error updating team lead: $error';
+    }
   }
 
   Future<void> getTeamMembersInfo() async {
@@ -154,8 +175,23 @@ class _TeamListState extends State<TeamList> {
                               ],
                             ),
                             Spacer(),
-                            IconButton(
-                                onPressed: () {}, icon: Icon(Icons.more_vert))
+                            PopupMenuButton(
+                              child: Center(child: Icon(Icons.more_vert)),
+                              itemBuilder: (context) {
+                                return List.generate(1, (index) {
+                                  return PopupMenuItem(
+                                    child: Text(
+                                      'Make team lead',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    onTap: () async {
+                                      await createTeamLead(
+                                          memberData['userId']);
+                                    },
+                                  );
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ),

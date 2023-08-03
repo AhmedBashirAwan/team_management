@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 import 'package:team_management/src/auth/register/register.dart';
@@ -19,6 +20,7 @@ class CreateTeamState extends State<CreateTeam> {
     String teamName,
   ) async {
     Map<String, dynamic> payload = {
+      'teamHead': FirebaseAuth.instance.currentUser!.uid,
       'title': teamName,
     };
     dynamic response =

@@ -233,8 +233,9 @@ class _AddMembersState extends State<AddMembers> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            TeamList(selectedMembers: selectedTeam),
+                        builder: (context) => TeamList(
+                            selectedMembers: selectedTeam,
+                            teamId: widget.teamId),
                       ),
                     );
                   },
