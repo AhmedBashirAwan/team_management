@@ -16,6 +16,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool _passwordVisible = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -31,7 +32,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -75,14 +76,22 @@ class _LoginState extends State<Login> {
               ),
               child: Row(
                 children: [
+                  SizedBox(
+                    width: getwidth(context) * 0.03,
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _emailController,
                       onSubmitted: (value) {},
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.normal,
+                      ),
                       cursorColor: Colors.blue,
                       decoration: InputDecoration(
-                        hintText: '  Enter Email',
+                        hintText: 'Enter Email',
                         hintStyle: Theme.of(context).textTheme.titleSmall,
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -107,7 +116,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             SizedBox(
-              height: getHeight(context) * 0.01,
+              height: getHeight(context) * 0.02,
             ),
             Container(
               decoration: BoxDecoration(
@@ -119,14 +128,24 @@ class _LoginState extends State<Login> {
               ),
               child: Row(
                 children: [
+                  SizedBox(
+                    width: getwidth(context) * 0.03,
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _passwordController,
                       onSubmitted: (value) {},
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.normal,
+                      ),
                       cursorColor: Colors.blue,
+                      obscureText:
+                          !_passwordVisible, // Toggle password visibility
                       decoration: InputDecoration(
-                        hintText: '  Password',
+                        hintText: 'Password',
                         hintStyle: Theme.of(context).textTheme.titleSmall,
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -143,10 +162,17 @@ class _LoginState extends State<Login> {
                   IconTheme(
                     data: IconThemeData(color: Colors.blue.shade700),
                     child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.lock_outline),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible =
+                              !_passwordVisible; // Toggle password visibility
+                        });
+                      },
+                      icon: Icon(_passwordVisible
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),

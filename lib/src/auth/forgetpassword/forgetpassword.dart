@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 
 import '../login/screen/login.dart';
+import '../register/register.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 children: [
                   Text(
                     'Forget Password',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
               ),
@@ -60,7 +61,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   'Don\'t worry! It happens. Please enter the address associated with your Account.',
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
               Padding(
@@ -75,10 +76,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                   child: Row(
                     children: [
+                      SizedBox(
+                        width: getwidth(context) * 0.03,
+                      ),
                       Expanded(
                         child: TextField(
                           controller: _emailController,
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FontStyle.normal,
+                          ),
                           cursorColor: Colors.blue,
                           decoration: InputDecoration(
                             hintText: 'Email',

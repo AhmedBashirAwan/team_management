@@ -15,6 +15,7 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  bool _passwordVisible = false;
   bool _isChecked = false;
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -42,7 +43,7 @@ class _CreateAccountState extends State<CreateAccount> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -85,14 +86,22 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 child: Row(
                   children: [
+                    SizedBox(
+                      width: getwidth(context) * 0.03,
+                    ),
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
                         controller: fullNameController,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: '  Name',
+                          hintText: 'Name',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -117,7 +126,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.01,
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -129,14 +138,22 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 child: Row(
                   children: [
+                    SizedBox(
+                      width: getwidth(context) * 0.03,
+                    ),
                     Expanded(
                       child: TextField(
                         controller: emailController,
                         onSubmitted: (value) {},
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: '  Email',
+                          hintText: 'Email',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -161,7 +178,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.01,
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -173,14 +190,24 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 child: Row(
                   children: [
+                    SizedBox(
+                      width: getwidth(context) * 0.03,
+                    ),
                     Expanded(
                       child: TextField(
                         controller: passwordController,
                         onSubmitted: (value) {},
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
                         cursorColor: Colors.blue,
+                        obscureText:
+                            !_passwordVisible, // Toggle password visibility
                         decoration: InputDecoration(
-                          hintText: '  Password',
+                          hintText: 'Password',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -197,15 +224,22 @@ class _CreateAccountState extends State<CreateAccount> {
                     IconTheme(
                       data: IconThemeData(color: Colors.blue.shade700),
                       child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.remove_red_eye),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible =
+                                !_passwordVisible; // Toggle password visibility
+                          });
+                        },
+                        icon: Icon(_passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility),
                       ),
                     )
                   ],
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.01,
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -217,14 +251,21 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 child: Row(
                   children: [
+                    SizedBox(
+                      width: getwidth(context) * 0.03,
+                    ),
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        controller: fullNameController,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: '  Specialities',
+                          hintText: 'Specialities',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -249,7 +290,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.01,
+                height: getHeight(context) * 0.02,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -261,14 +302,21 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 child: Row(
                   children: [
+                    SizedBox(
+                      width: getwidth(context) * 0.03,
+                    ),
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        controller: fullNameController,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: '  FrameWork',
+                          hintText: 'FrameWork',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -293,7 +341,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
               SizedBox(
-                height: getHeight(context) * 0.01,
+                height: getHeight(context) * 0.02,
               ),
               Row(
                 children: [
@@ -313,69 +361,99 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               CustomButtons(
                 buttonText: "Create An Account",
-                onPressed: () async {
-                  UserCredential userCredential = await FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  );
-                  USER_ID = userCredential.user!.uid;
-                  await addUserDetails(fullNameController.text.trim(),
-                      emailController.text.trim());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Login(),
-                    ),
-                  );
-                },
+                onPressed: _isChecked
+                    ? () async {
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .createUserWithEmailAndPassword(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                        );
+                        USER_ID = userCredential.user!.uid;
+                        await addUserDetails(fullNameController.text.trim(),
+                            emailController.text.trim());
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                        );
+                      }
+                    : null,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 20,
                 ),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'By continuing, you agree to our ',
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'Privacy Policy ',
-                            style: TextStyle(
-                              color: Colors.orange.shade700,
-                              decoration: TextDecoration.underline,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Already have an Account? ',
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'and ',
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'terms of service.',
-                            style: TextStyle(
-                              color: Colors.orange.shade700,
-                              decoration: TextDecoration.underline,
-                              fontSize: 14,
-                            ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
                           ),
+                        );
+                      },
+                      child: Text(
+                        'LogIn',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.blue.shade600,
+                          decoration: TextDecoration.underline,
                         ),
-                      ],
-                    )
+                      ),
+                    ),
                   ],
                 ),
+                // Column(
+                //   children: [
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Text(
+                //           'By continuing, you agree to our ',
+                //         ),
+                //         GestureDetector(
+                //           onTap: () {},
+                //           child: Text(
+                //             'Privacy Policy ',
+                //             style: TextStyle(
+                //               color: Colors.orange.shade700,
+                //               decoration: TextDecoration.underline,
+                //               fontSize: 14,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Text(
+                //           'and ',
+                //         ),
+                //         GestureDetector(
+                //           onTap: () {},
+                //           child: Text(
+                //             'terms of service.',
+                //             style: TextStyle(
+                //               color: Colors.orange.shade700,
+                //               decoration: TextDecoration.underline,
+                //               fontSize: 14,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     )
+                //   ],
+                // ),
               ),
             ],
           ),
