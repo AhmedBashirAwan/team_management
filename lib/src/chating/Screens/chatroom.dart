@@ -25,12 +25,12 @@ class _ChatWidgetState extends State<ChatWidget> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Row(
+        title: const Row(
           children: [
             CircleAvatar(
               backgroundImage: NetworkImage(
@@ -79,7 +79,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                       },
                     );
                   } else {
-                    return Text("No chat");
+                    return const Text("No chat");
                   }
                 }),
               ),
@@ -88,7 +88,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 
@@ -105,7 +105,7 @@ class ChatBubble extends StatelessWidget {
   final bool isMe;
   final String message;
 
-  ChatBubble({required this.message, required this.isMe});
+  const ChatBubble({super.key, required this.message, required this.isMe});
 
   @override
   Widget build(BuildContext context) {

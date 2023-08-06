@@ -40,11 +40,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => const Login(),
                           ),
                         );
                       },
-                      icon: Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back),
                     ),
                   ],
                 ),
@@ -82,14 +82,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       Expanded(
                         child: TextField(
                           controller: _emailController,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                             fontStyle: FontStyle.normal,
                           ),
                           cursorColor: Colors.blue,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Email',
                             hintStyle: TextStyle(
                               color: Colors.grey,
@@ -119,7 +119,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               CustomButtons(
                 buttonText: 'Send Code',
                 onPressed: () async {

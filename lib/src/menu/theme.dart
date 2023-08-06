@@ -6,6 +6,8 @@ import 'package:team_management/theme/themechanger.dart';
 import '../../customised/widgets/bottomnavigation.dart';
 
 class ThemeButton extends StatelessWidget {
+  const ThemeButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeChanger = Provider.of<ThemeChanger>(context);
@@ -23,17 +25,17 @@ class ThemeButton extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => settings(),
+                          builder: (context) => const settings(),
                         ),
                       );
                     },
-                    icon: Icon(Icons.arrow_back)),
+                    icon: const Icon(Icons.arrow_back)),
                 Text(
                   'Generals',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
+                const Spacer(),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
               ],
             ),
           ),
@@ -66,7 +68,7 @@ class ThemeButton extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

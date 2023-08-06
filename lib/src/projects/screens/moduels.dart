@@ -105,25 +105,25 @@ class _ModuelsState extends State<Moduels> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Dashboard(),
+                                builder: (context) => const Dashboard(),
                               ),
                             );
                           },
-                          icon: Icon(Icons.arrow_back)),
+                          icon: const Icon(Icons.arrow_back)),
                       Text(projectName,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.w500)),
-                      Spacer(),
+                      const Spacer(),
                       IconButton(
-                          onPressed: () {}, icon: Icon(Icons.more_horiz)),
+                          onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                     ],
                   ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
                       Text(
@@ -144,7 +144,7 @@ class _ModuelsState extends State<Moduels> {
                     width: MediaQuery.of(context).size.width,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       itemCount: moduleNames.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -177,7 +177,7 @@ class _ModuelsState extends State<Moduels> {
                                 child: Text(
                                   moduleNames[
                                       index], // Display the module name here
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -189,9 +189,9 @@ class _ModuelsState extends State<Moduels> {
                     ),
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     children: [
                       Text(
@@ -208,7 +208,7 @@ class _ModuelsState extends State<Moduels> {
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40))),
                   height: getHeight(context) * 0.45,
@@ -221,14 +221,14 @@ class _ModuelsState extends State<Moduels> {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         thickness: 2,
                       ),
                       SizedBox(
                         height: getHeight(context) * 0.03,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Row(
                           children: [
                             Text(
@@ -250,7 +250,7 @@ class _ModuelsState extends State<Moduels> {
                               borderRadius: BorderRadius.circular(30)),
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               ),
                               Expanded(
@@ -259,22 +259,22 @@ class _ModuelsState extends State<Moduels> {
                                   controller: moduelTitleController,
                                   style: const TextStyle(color: Colors.black),
                                   cursorColor: Colors.blue,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: 'e.g, Location Tracking',
-                                    hintStyle: const TextStyle(
+                                    hintStyle: TextStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 18,
                                     ),
-                                    enabledBorder: const UnderlineInputBorder(
+                                    enabledBorder: UnderlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.transparent),
                                     ),
-                                    focusedBorder: const UnderlineInputBorder(
+                                    focusedBorder: UnderlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.transparent),
                                     ),
-                                    disabledBorder: const UnderlineInputBorder(
+                                    disabledBorder: UnderlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.transparent),
                                     ),
@@ -297,15 +297,14 @@ class _ModuelsState extends State<Moduels> {
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10))),
-                              child: Text(
+                              child: const Text(
                                 'Add Up',
                                 style: TextStyle(fontSize: 20),
                               ),
                               onPressed: () async {
                                 await addModuleAndRefresh(
                                     moduelTitleController.text.trim());
-                                moduelTitleController
-                                    .clear(); // Clear the text field after adding
+                                moduelTitleController.clear();
                               },
                             )),
                       ),
@@ -320,7 +319,7 @@ class _ModuelsState extends State<Moduels> {
           );
         },
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

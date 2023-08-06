@@ -39,7 +39,7 @@ class _CustomTextBoxState extends State<CustomTextBox> {
         height: getHeight(context) * 0.09,
         child: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Expanded(
@@ -48,20 +48,20 @@ class _CustomTextBoxState extends State<CustomTextBox> {
                 controller: _textEditingController,
                 style: const TextStyle(color: Colors.black),
                 cursorColor: Colors.blue,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Your Message.',
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
                   ),
-                  enabledBorder: const UnderlineInputBorder(
+                  enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
-                  focusedBorder: const UnderlineInputBorder(
+                  focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
-                  disabledBorder: const UnderlineInputBorder(
+                  disabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
                 ),

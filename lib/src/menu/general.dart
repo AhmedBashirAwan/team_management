@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/menu/settings.dart';
 
@@ -45,17 +44,17 @@ class _GeneralsState extends State<Generals> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => settings(),
+                          builder: (context) => const settings(),
                         ),
                       );
                     },
-                    icon: Icon(Icons.arrow_back)),
+                    icon: const Icon(Icons.arrow_back)),
                 Text(
                   'Generals',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
+                const Spacer(),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
               ],
             ),
           ),
@@ -77,7 +76,7 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Set Automatically',
                           ),
                         ],
@@ -85,7 +84,7 @@ class _GeneralsState extends State<Generals> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 SizedBox(
@@ -102,12 +101,12 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Automatically detect due to date in task',
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -120,7 +119,7 @@ class _GeneralsState extends State<Generals> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 SizedBox(
@@ -137,12 +136,12 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Set Another Checkbox',
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         children: [
                           Checkbox(
@@ -154,7 +153,7 @@ class _GeneralsState extends State<Generals> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 Padding(
@@ -188,10 +187,10 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'The App and email remainders will use ',
                           ),
-                          Text('asia / colombo')
+                          const Text('asia / colombo')
                         ],
                       ),
                     ],
@@ -214,7 +213,7 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Monday',
                           ),
                         ],
@@ -239,7 +238,7 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Monday',
                           ),
                         ],
@@ -264,7 +263,7 @@ class _GeneralsState extends State<Generals> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Sunday',
                           ),
                         ],
@@ -280,7 +279,7 @@ class _GeneralsState extends State<Generals> {
           )
         ],
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

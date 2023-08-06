@@ -68,12 +68,12 @@ class _TeamListState extends State<TeamList> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Dashboard(),
+                builder: (context) => const Dashboard(),
               ),
             );
           },
@@ -93,8 +93,8 @@ class _TeamListState extends State<TeamList> {
         children: [
           SizedBox(
             height: getHeight(context) * 0.07,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30, top: 20),
+            child: const Padding(
+              padding: EdgeInsets.only(left: 30, top: 20),
               child: Row(
                 children: [
                   Text(
@@ -153,7 +153,7 @@ class _TeamListState extends State<TeamList> {
                                   children: [
                                     Text(
                                       memberData['fullName'] ?? '',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                         color: Colors.black,
@@ -161,12 +161,12 @@ class _TeamListState extends State<TeamList> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 3,
                                 ),
                                 Text(
                                   memberData['email'] ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13,
                                     color: Colors.black,
@@ -174,13 +174,13 @@ class _TeamListState extends State<TeamList> {
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             PopupMenuButton(
-                              child: Center(child: Icon(Icons.more_vert)),
+                              child: const Center(child: Icon(Icons.more_vert)),
                               itemBuilder: (context) {
                                 return List.generate(1, (index) {
                                   return PopupMenuItem(
-                                    child: Text(
+                                    child: const Text(
                                       'Make team lead',
                                       style: TextStyle(fontSize: 15),
                                     ),
@@ -203,7 +203,7 @@ class _TeamListState extends State<TeamList> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

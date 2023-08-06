@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import '../../../../customised/widgets/buttons.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +33,15 @@ class WelcomeScreen extends StatelessWidget {
                     height: getHeight(context) * 0.014,
                   ),
                   Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: CustomButtons(
                         buttonText: 'Sign In',
-                        icon: Icon(Icons.arrow_forward),
+                        icon: const Icon(Icons.arrow_forward),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateAccount(),
+                              builder: (context) => const CreateAccount(),
                             ),
                           );
                         },

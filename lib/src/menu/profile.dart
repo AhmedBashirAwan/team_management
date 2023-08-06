@@ -42,16 +42,16 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.close)),
+                        icon: const Icon(Icons.close)),
                   ],
                 ),
               ),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 70,
                 backgroundImage: NetworkImage(
                     'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=725&q=80'), // Replace with your actual image URL
@@ -67,17 +67,17 @@ class _ProfileState extends State<Profile> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator(); // Show a loading indicator while waiting for data
+                            return const CircularProgressIndicator(); // Show a loading indicator while waiting for data
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
                             final userData = snapshot.data;
                             if (userData == null) {
-                              return Text('No data available');
+                              return const Text('No data available');
                             }
                             return Text(
                               userData,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 30, fontWeight: FontWeight.w500),
                             );
                           }
@@ -93,7 +93,7 @@ class _ProfileState extends State<Profile> {
                   GestureDetector(
                     child: Text(
                       '${FirebaseAuth.instance.currentUser!.email}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                       ),
                     ),
@@ -103,9 +103,9 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: getHeight(context) * 0.02,
               ),
-              Padding(
+              const Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Row(
                   children: [
                     Text(
@@ -132,13 +132,13 @@ class _ProfileState extends State<Profile> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // Show a loading indicator while waiting for data
+                              return const CircularProgressIndicator(); // Show a loading indicator while waiting for data
                             } else if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
                             } else {
                               final userData = snapshot.data;
                               if (userData == null) {
-                                return Text('No data available');
+                                return const Text('No data available');
                               }
                               return Text(
                                 userData,
@@ -147,19 +147,19 @@ class _ProfileState extends State<Profile> {
                             }
                           },
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
                             iconSize: 25,
                             onPressed: () {},
-                            icon: Icon(Icons.edit))
+                            icon: const Icon(Icons.edit))
                       ],
                     ),
                   ),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Row(
                   children: [
                     Text(
@@ -185,11 +185,11 @@ class _ProfileState extends State<Profile> {
                           '${FirebaseAuth.instance.currentUser!.email}',
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
                             iconSize: 30,
                             onPressed: () {},
-                            icon: Icon(Icons.mail_outline))
+                            icon: const Icon(Icons.mail_outline))
                       ],
                     ),
                   ),

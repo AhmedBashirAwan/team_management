@@ -32,7 +32,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 'How would you rate this app?',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -41,39 +41,39 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       // TODO: Handle 1-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.red),
+                    icon: const Icon(Icons.star, color: Colors.red),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 2-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.red),
+                    icon: const Icon(Icons.star, color: Colors.red),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 3-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.yellow),
+                    icon: const Icon(Icons.star, color: Colors.yellow),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 4-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.green),
+                    icon: const Icon(Icons.star, color: Colors.green),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 5-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.green),
+                    icon: const Icon(Icons.star, color: Colors.green),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'We would love to hear your feedback',
                 style: Theme.of(context).textTheme.titleSmall,
@@ -87,14 +87,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 // TODO: Handle "Submit" button
                 Navigator.of(context).pop();
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
             TextButton(
               onPressed: () {
                 // TODO: Handle "Later" button
                 Navigator.of(context).pop();
               },
-              child: Text('Later'),
+              child: const Text('Later'),
             ),
           ],
         );
@@ -137,7 +137,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   )
                 ],
               ),
-              VerticalDivider(),
+              const VerticalDivider(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +168,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => settings(),
+                      builder: (context) => const settings(),
                     ),
                   );
                 },
@@ -176,7 +176,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.settings),
+                      const Icon(Icons.settings),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),
@@ -193,7 +193,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Notifications(),
+                      builder: (context) => const Notifications(),
                     ),
                   );
                 },
@@ -201,7 +201,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.notifications_active_outlined),
+                      const Icon(Icons.notifications_active_outlined),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),
@@ -219,7 +219,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.favorite_border_outlined),
+                      const Icon(Icons.favorite_border_outlined),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),
@@ -237,7 +237,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.thumb_up_alt_outlined),
+                      const Icon(Icons.thumb_up_alt_outlined),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),
@@ -255,7 +255,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.question_mark),
+                      const Icon(Icons.question_mark),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),
@@ -272,7 +272,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ThemeButton(),
+                      builder: (context) => const ThemeButton(),
                     ),
                   );
                 },
@@ -280,7 +280,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.wb_sunny_outlined),
+                      const Icon(Icons.wb_sunny_outlined),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),
@@ -297,7 +297,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   try {
                     await FirebaseAuth.instance.signOut();
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Login()));
+                        MaterialPageRoute(builder: (context) => const Login()));
                   } catch (e) {
                     print('Error signing out: $e');
                   }
@@ -306,7 +306,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   height: getHeight(context) * 0.07,
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      const Icon(Icons.logout),
                       SizedBox(
                         width: getwidth(context) * 0.05,
                       ),

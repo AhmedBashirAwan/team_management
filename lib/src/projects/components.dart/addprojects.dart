@@ -45,13 +45,13 @@ class _AddProjectState extends State<AddProject> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 2,
               ),
               SizedBox(
                 height: getHeight(context) * 0.03,
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     'Task Title',
@@ -68,7 +68,7 @@ class _AddProjectState extends State<AddProject> {
                     borderRadius: BorderRadius.circular(30)),
                 child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Expanded(
@@ -77,20 +77,20 @@ class _AddProjectState extends State<AddProject> {
                         controller: projectTitleController,
                         style: const TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Name your Project.',
-                          hintStyle: const TextStyle(
+                          hintStyle: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.w400,
                             fontSize: 18,
                           ),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          focusedBorder: const UnderlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          disabledBorder: const UnderlineInputBorder(
+                          disabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
@@ -99,7 +99,7 @@ class _AddProjectState extends State<AddProject> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: SizedBox(
@@ -109,7 +109,7 @@ class _AddProjectState extends State<AddProject> {
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
-                      child: Text(
+                      child: const Text(
                         'Create',
                         style: TextStyle(fontSize: 20),
                       ),

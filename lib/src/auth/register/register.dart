@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/src/auth/login/screen/login.dart';
 
@@ -26,12 +25,12 @@ class RregisterationState extends State<Registeration> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
                 height: MediaQuery.of(context).size.height * 0.3,
                 width: MediaQuery.of(context).size.width,
                 child: Image.asset('assets/images/register.png')),
             Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   Text(
@@ -47,28 +46,28 @@ class RregisterationState extends State<Registeration> {
                   ),
                   Links(
                     buttonText: 'Continue With Apple',
-                    icon: Icon(Icons.apple),
+                    icon: const Icon(Icons.apple),
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                     onPressed: () {},
                   ),
                   Links(
                     buttonText: 'facebook',
-                    icon: Icon(Icons.facebook),
+                    icon: const Icon(Icons.facebook),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     onPressed: () {},
                   ),
                   Links(
                     buttonText: 'google',
-                    icon: Icon(Icons.report_gmailerrorred_outlined),
+                    icon: const Icon(Icons.report_gmailerrorred_outlined),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     onPressed: () {},
                   ),
                   Links(
                     buttonText: 'Email',
-                    icon: Icon(Icons.email),
+                    icon: const Icon(Icons.email),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     onPressed: () {},
@@ -96,7 +95,7 @@ class RregisterationState extends State<Registeration> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Login(),
+                                  builder: (context) => const Login(),
                                 ),
                               );
                             },

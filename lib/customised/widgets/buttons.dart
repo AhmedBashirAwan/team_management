@@ -15,13 +15,13 @@ class CustomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 55,
       width: getwidth(context),
       child: ElevatedButton(
         onPressed: onPressed, // Use the provided onPressed function
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
             vertical: 12.0,
           ),
@@ -33,10 +33,10 @@ class CustomButtons extends StatelessWidget {
           children: [
             Text(
               buttonText,
-              style: TextStyle(fontSize: 20.0),
+              style: const TextStyle(fontSize: 20.0),
             ),
             if (icon != null) // Conditionally include the icon if it's not null
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
             if (icon != null) // Conditionally include the icon if it's not null

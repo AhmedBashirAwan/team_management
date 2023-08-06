@@ -6,7 +6,7 @@ class AppBlok extends ChangeNotifier {
     log("AppBlok is working...");
   }
   int _activeIndex = 1;
-  List<Widget> _screens = [];
+  final List<Widget> _screens = [];
 
   switchScreen(int index) {
     _activeIndex = index;

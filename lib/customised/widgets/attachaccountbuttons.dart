@@ -45,12 +45,12 @@ class Links extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
                 buttonText,
-                style: TextStyle(fontSize: 20.0),
+                style: const TextStyle(fontSize: 20.0),
               ),
             ],
           ),

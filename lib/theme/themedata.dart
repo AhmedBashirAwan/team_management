@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeDataRepository {
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       titleSmall: TextStyle(
         color: Colors.black,
         fontSize: 16,
@@ -14,7 +14,7 @@ class ThemeDataRepository {
         fontWeight: FontWeight.bold,
       ),
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: Colors.white,
       iconTheme: IconThemeData(
         color: Colors.black,
@@ -29,7 +29,7 @@ class ThemeDataRepository {
       trackColor: MaterialStateProperty.all<Color>(Colors.grey),
       thumbColor: MaterialStateProperty.all<Color>(Colors.white),
     ),
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       titleSmall: TextStyle(
         color: Colors.white,
         fontSize: 16,
@@ -40,7 +40,7 @@ class ThemeDataRepository {
         fontWeight: FontWeight.bold,
       ),
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: Colors.black,
       iconTheme: IconThemeData(
         color: Colors.white,

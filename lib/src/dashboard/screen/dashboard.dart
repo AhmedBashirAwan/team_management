@@ -62,26 +62,26 @@ class DashboardState extends State<Dashboard> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_none_outlined),
+            icon: const Icon(Icons.notifications_none_outlined),
             color: Colors.black,
             onPressed: () {},
           ),
         ],
       ),
-      drawer: Drawer(child: CustomDrawer()),
+      drawer: const Drawer(child: CustomDrawer()),
       body: FutureBuilder(
         builder: (context, snapshot) {
           return ListView(
             shrinkWrap: true,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    Row(
+                    const Row(
                       children: [
                         Text(
                           'Hello,',
@@ -99,17 +99,17 @@ class DashboardState extends State<Dashboard> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // Show a loading indicator while waiting for data
+                              return const CircularProgressIndicator(); // Show a loading indicator while waiting for data
                             } else if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
                             } else {
                               final userData = snapshot.data;
                               if (userData == null) {
-                                return Text('No data available');
+                                return const Text('No data available');
                               }
                               return Text(
                                 userData,
-                                style: TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20),
                               );
                             }
                           },
@@ -118,10 +118,10 @@ class DashboardState extends State<Dashboard> {
                           Icons.waving_hand_rounded,
                           color: Colors.orange.shade600,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.calendar_today_outlined),
+                          icon: const Icon(Icons.calendar_today_outlined),
                         ),
                       ],
                     ),
@@ -132,7 +132,7 @@ class DashboardState extends State<Dashboard> {
                         width: MediaQuery.of(context).size.width,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           itemCount: projectNames.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
@@ -165,7 +165,7 @@ class DashboardState extends State<Dashboard> {
                                   child: Center(
                                     child: Text(
                                       projectNames[index],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -177,8 +177,8 @@ class DashboardState extends State<Dashboard> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
                           horizontal: 15, vertical: 10),
                       child: Row(
                         children: [
@@ -280,7 +280,7 @@ class DashboardState extends State<Dashboard> {
           );
         },
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

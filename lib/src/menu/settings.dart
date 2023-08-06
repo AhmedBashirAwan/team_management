@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/src/menu/general.dart';
 import 'package:team_management/src/menu/notifications.dart';
@@ -34,7 +33,7 @@ class _settingsState extends State<settings> {
                 'How would you rate this app?',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -43,39 +42,39 @@ class _settingsState extends State<settings> {
                       // TODO: Handle 1-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.red),
+                    icon: const Icon(Icons.star, color: Colors.red),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 2-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.red),
+                    icon: const Icon(Icons.star, color: Colors.red),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 3-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.yellow),
+                    icon: const Icon(Icons.star, color: Colors.yellow),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 4-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.green),
+                    icon: const Icon(Icons.star, color: Colors.green),
                   ),
                   IconButton(
                     onPressed: () {
                       // TODO: Handle 5-star rating
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.star, color: Colors.green),
+                    icon: const Icon(Icons.star, color: Colors.green),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'We would love to hear your feedback',
                 style: Theme.of(context).textTheme.titleSmall,
@@ -89,14 +88,14 @@ class _settingsState extends State<settings> {
                 // TODO: Handle "Submit" button
                 Navigator.of(context).pop();
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
             TextButton(
               onPressed: () {
                 // TODO: Handle "Later" button
                 Navigator.of(context).pop();
               },
-              child: Text('Later'),
+              child: const Text('Later'),
             ),
           ],
         );
@@ -121,16 +120,16 @@ class _settingsState extends State<settings> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Dashboard(),
+                            builder: (context) => const Dashboard(),
                           ),
                         );
                       },
-                      icon: Icon(Icons.arrow_back)),
+                      icon: const Icon(Icons.arrow_back)),
                   Text(
                     'Settings',
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                 ],
               ),
             ),
@@ -143,7 +142,7 @@ class _settingsState extends State<settings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Profile(),
+                          builder: (context) => const Profile(),
                         ),
                       );
                     },
@@ -151,7 +150,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.person_2_outlined),
+                          const Icon(Icons.person_2_outlined),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -168,7 +167,7 @@ class _settingsState extends State<settings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Generals(),
+                          builder: (context) => const Generals(),
                         ),
                       );
                     },
@@ -176,7 +175,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.settings),
+                          const Icon(Icons.settings),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -193,7 +192,7 @@ class _settingsState extends State<settings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Notifications(),
+                          builder: (context) => const Notifications(),
                         ),
                       );
                     },
@@ -201,7 +200,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.notification_important_outlined),
+                          const Icon(Icons.notification_important_outlined),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -219,7 +218,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.favorite_border),
+                          const Icon(Icons.favorite_border),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -237,7 +236,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.thumb_up_alt_outlined),
+                          const Icon(Icons.thumb_up_alt_outlined),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -255,7 +254,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.crisis_alert_sharp),
+                          const Icon(Icons.crisis_alert_sharp),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -272,7 +271,7 @@ class _settingsState extends State<settings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ThemeButton(),
+                          builder: (context) => const ThemeButton(),
                         ),
                       );
                     },
@@ -280,7 +279,7 @@ class _settingsState extends State<settings> {
                       height: getHeight(context) * 0.07,
                       child: Row(
                         children: [
-                          Icon(Icons.wb_sunny_outlined),
+                          const Icon(Icons.wb_sunny_outlined),
                           SizedBox(
                             width: getwidth(context) * 0.05,
                           ),
@@ -298,7 +297,7 @@ class _settingsState extends State<settings> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

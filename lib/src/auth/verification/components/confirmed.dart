@@ -19,7 +19,7 @@ class _ConfirmedState extends State<Confirmed> {
           children: [
             Row(
               children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.close_rounded))
+                IconButton(onPressed: () {}, icon: const Icon(Icons.close_rounded))
               ],
             ),
             Image.asset('assets/images/verification.png'),
@@ -39,7 +39,7 @@ class _ConfirmedState extends State<Confirmed> {
               ' problem with your account. ',
               style: Theme.of(context).textTheme.titleSmall,
             ),
-            Spacer(),
+            const Spacer(),
             CustomButtons(
               buttonText: 'Back to Login',
               onPressed: () {

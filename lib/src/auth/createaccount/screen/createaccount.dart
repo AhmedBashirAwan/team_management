@@ -54,11 +54,11 @@ class _CreateAccountState extends State<CreateAccount> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => const Login(),
                           ),
                         );
                       },
-                      icon: Icon(Icons.arrow_back))
+                      icon: const Icon(Icons.arrow_back))
                 ],
               ),
               Row(
@@ -93,23 +93,18 @@ class _CreateAccountState extends State<CreateAccount> {
                       child: TextField(
                         onSubmitted: (value) {},
                         controller: fullNameController,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: 'Name',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          focusedBorder: UnderlineInputBorder(
+                          focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          disabledBorder: UnderlineInputBorder(
+                          disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
@@ -145,23 +140,18 @@ class _CreateAccountState extends State<CreateAccount> {
                       child: TextField(
                         controller: emailController,
                         onSubmitted: (value) {},
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          focusedBorder: UnderlineInputBorder(
+                          focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          disabledBorder: UnderlineInputBorder(
+                          disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
@@ -197,25 +187,21 @@ class _CreateAccountState extends State<CreateAccount> {
                       child: TextField(
                         controller: passwordController,
                         onSubmitted: (value) {},
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
+
                         cursorColor: Colors.blue,
                         obscureText:
                             !_passwordVisible, // Toggle password visibility
                         decoration: InputDecoration(
                           hintText: 'Password',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          focusedBorder: UnderlineInputBorder(
+                          focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          disabledBorder: UnderlineInputBorder(
+                          disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
@@ -257,23 +243,18 @@ class _CreateAccountState extends State<CreateAccount> {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: 'Specialities',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          focusedBorder: UnderlineInputBorder(
+                          focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          disabledBorder: UnderlineInputBorder(
+                          disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
@@ -308,23 +289,18 @@ class _CreateAccountState extends State<CreateAccount> {
                     Expanded(
                       child: TextField(
                         onSubmitted: (value) {},
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
                           hintText: 'FrameWork',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          focusedBorder: UnderlineInputBorder(
+                          focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          disabledBorder: UnderlineInputBorder(
+                          disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
@@ -353,7 +329,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       });
                     },
                   ),
-                  Text('I agree with terms and conditions'),
+                  const Text('I agree with terms and conditions'),
                 ],
               ),
               SizedBox(
@@ -375,7 +351,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => const Login(),
                           ),
                         );
                       }
@@ -397,7 +373,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => const Login(),
                           ),
                         );
                       },

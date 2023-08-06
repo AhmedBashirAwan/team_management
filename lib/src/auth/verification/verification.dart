@@ -28,11 +28,11 @@ class _VerificationState extends State<Verification> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateAccount(),
+                          builder: (context) => const CreateAccount(),
                         ),
                       );
                     },
-                    icon: Icon(Icons.arrow_back))
+                    icon: const Icon(Icons.arrow_back))
               ],
             ),
             Row(
@@ -67,14 +67,14 @@ class _VerificationState extends State<Verification> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             CustomButtons(
               buttonText: 'Verify Account',
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Confirmed(),
+                    builder: (context) => const Confirmed(),
                   ),
                 );
               },

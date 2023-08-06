@@ -34,17 +34,17 @@ class _NotificationsState extends State<Notifications> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => settings(),
+                          builder: (context) => const settings(),
                         ),
                       );
                     },
-                    icon: Icon(Icons.arrow_back)),
+                    icon: const Icon(Icons.arrow_back)),
                 Text(
                   'Notifications',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
+                const Spacer(),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
               ],
             ),
           ),
@@ -66,12 +66,12 @@ class _NotificationsState extends State<Notifications> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Sent push notifications to this device',
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -101,7 +101,7 @@ class _NotificationsState extends State<Notifications> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'get a daily summary of your tasks',
                           ),
                         ],
@@ -112,7 +112,7 @@ class _NotificationsState extends State<Notifications> {
               ],
             ),
           ),
-          Divider(
+          const Divider(
             height: 15,
             thickness: 1,
           ),
@@ -137,10 +137,10 @@ class _NotificationsState extends State<Notifications> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Get Notified about updates  ',
                           ),
-                          Text('Shared Projects')
+                          const Text('Shared Projects')
                         ],
                       ),
                     ],
@@ -163,10 +163,10 @@ class _NotificationsState extends State<Notifications> {
                           SizedBox(
                             height: getHeight(context) * 0.008,
                           ),
-                          Text(
+                          const Text(
                             'Choose which Emails will you like ',
                           ),
-                          Text('to recieve')
+                          const Text('to recieve')
                         ],
                       ),
                     ],
@@ -177,7 +177,7 @@ class _NotificationsState extends State<Notifications> {
           )
         ],
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

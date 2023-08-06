@@ -15,7 +15,7 @@ class AddMembers extends StatefulWidget {
 class _AddMembersState extends State<AddMembers> {
   List<String> selectedMembers = [];
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   Future<List<String>> addMembers(List<String> selectedMembers) async {
     final DocumentReference documentReference =
@@ -36,9 +36,9 @@ class _AddMembersState extends State<AddMembers> {
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection('userData').get();
 
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         userList.add(doc.data() as Map<String, dynamic>);
-      });
+      }
     } catch (e) {
       print('Error reading data from Firestore: $e');
     }
@@ -50,18 +50,18 @@ class _AddMembersState extends State<AddMembers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Team Management'),
+        title: const Text('Team Management'),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.more_horiz),
+            icon: const Icon(Icons.more_horiz),
           ),
         ],
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Text(
               'Add Members to Your Team',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
@@ -85,7 +85,7 @@ class _AddMembersState extends State<AddMembers> {
                     Expanded(
                       child: TextField(
                         controller: _searchController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Search',
                           hintStyle: TextStyle(
                             color: Colors.grey,
@@ -118,12 +118,12 @@ class _AddMembersState extends State<AddMembers> {
               future: getUsersList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 if (snapshot.hasError) {
-                  return Center(
+                  return const Center(
                     child: Text('Error occurred'),
                   );
                 }
@@ -187,7 +187,7 @@ class _AddMembersState extends State<AddMembers> {
                                         children: [
                                           Text(
                                             userData['fullName'] ?? '',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 20,
                                               color: Colors.black,
@@ -195,12 +195,12 @@ class _AddMembersState extends State<AddMembers> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
                                       Text(
                                         userData['email'] ?? '',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 15,
                                           color: Colors.black,
@@ -239,7 +239,7 @@ class _AddMembersState extends State<AddMembers> {
                       ),
                     );
                   },
-                  child: Icon(Icons.check),
+                  child: const Icon(Icons.check),
                 ),
               ],
             ),

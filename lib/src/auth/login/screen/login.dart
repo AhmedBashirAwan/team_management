@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/forgetpassword/forgetpassword.dart';
 import 'package:team_management/src/auth/register/register.dart';
-import 'package:team_management/src/dashboard/screen/dashboard.dart';
 import '../../../../customised/widgets/attachaccountbuttons.dart';
 import '../../../../customised/widgets/buttons.dart';
 import '../../../../globals.dart';
@@ -32,7 +31,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -47,7 +46,7 @@ class _LoginState extends State<Login> {
                         ),
                       );
                     },
-                    icon: Icon(Icons.arrow_back))
+                    icon: const Icon(Icons.arrow_back))
               ],
             ),
             Row(
@@ -83,23 +82,18 @@ class _LoginState extends State<Login> {
                     child: TextField(
                       controller: _emailController,
                       onSubmitted: (value) {},
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.normal,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall,
                       cursorColor: Colors.blue,
                       decoration: InputDecoration(
                         hintText: 'Enter Email',
                         hintStyle: Theme.of(context).textTheme.titleSmall,
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
-                        disabledBorder: UnderlineInputBorder(
+                        disabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
                       ),
@@ -135,25 +129,21 @@ class _LoginState extends State<Login> {
                     child: TextField(
                       controller: _passwordController,
                       onSubmitted: (value) {},
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.normal,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall,
+
                       cursorColor: Colors.blue,
                       obscureText:
                           !_passwordVisible, // Toggle password visibility
                       decoration: InputDecoration(
                         hintText: 'Password',
                         hintStyle: Theme.of(context).textTheme.titleSmall,
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
-                        disabledBorder: UnderlineInputBorder(
+                        disabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
                       ),
@@ -186,7 +176,7 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgetPassword(),
+                          builder: (context) => const ForgetPassword(),
                         ),
                       );
                     },
@@ -212,12 +202,12 @@ class _LoginState extends State<Login> {
                         password: _passwordController.text.trim());
                 USER_ID = userCredential.user!.uid;
                 print(USER_ID);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Dashboard(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => Dashboard(),
+                //   ),
+                // );
               },
             ),
             Divider(
@@ -227,21 +217,21 @@ class _LoginState extends State<Login> {
             ),
             Links(
               buttonText: 'Continue With Apple',
-              icon: Icon(Icons.apple),
+              icon: const Icon(Icons.apple),
               backgroundColor: Colors.black,
               foregroundColor: Colors.white,
               onPressed: () {},
             ),
             Links(
               buttonText: 'facebook',
-              icon: Icon(Icons.facebook),
+              icon: const Icon(Icons.facebook),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               onPressed: () {},
             ),
             Links(
               buttonText: 'google',
-              icon: Icon(Icons.report_gmailerrorred_outlined),
+              icon: const Icon(Icons.report_gmailerrorred_outlined),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               onPressed: () {},
@@ -260,7 +250,7 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateAccount(),
+                          builder: (context) => const CreateAccount(),
                         ),
                       );
                     },

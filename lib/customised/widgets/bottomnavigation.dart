@@ -32,7 +32,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,
               iconSize: 35,
-              icon: Icon(
+              icon: const Icon(
                 Icons.message_outlined,
               ),
             ),
@@ -41,21 +41,21 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateTeam(),
+                    builder: (context) => const CreateTeam(),
                   ),
                 );
               },
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,
               iconSize: 35,
-              icon: Icon(Icons.person_2),
+              icon: const Icon(Icons.person_2),
             ),
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.blue, //<-- SEE HERE
               child: IconButton(
                 iconSize: 40,
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                   color: Colors.white,
                 ),
@@ -63,7 +63,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     context: context,
-                    builder: (context) => AddProject()),
+                    builder: (context) => const AddProject()),
               ),
             ),
             IconButton(
@@ -78,7 +78,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,
               iconSize: 35,
-              icon: Icon(
+              icon: const Icon(
                 Icons.task_sharp,
               ),
             ),
@@ -87,7 +87,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,
               iconSize: 30,
-              icon: Icon(Icons.check_circle),
+              icon: const Icon(Icons.check_circle),
             )
           ],
         ),
