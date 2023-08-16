@@ -11,46 +11,44 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
-        child: Container(
-          child: Column(children: [
-            Image.asset('assets/images/onboard-light.png'),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Manage your team & everthing with us',
-                    style: Theme.of(context).textTheme.titleMedium,
+        child: Column(children: [
+          Image.asset('assets/images/onboard-light.png'),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Text(
+                  'Manage your team & everthing with us',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    'We will give you the easiest way to manage your day to day activities',
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  Padding(
+                ),
+                SizedBox(
+                  height: getHeight(context) * 0.014,
+                ),
+                Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Text(
-                      'We will give you the easiest way to manage your day to day activities',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                  SizedBox(
-                    height: getHeight(context) * 0.014,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: CustomButtons(
-                        buttonText: 'Sign In',
-                        icon: const Icon(Icons.arrow_forward),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CreateAccount(),
-                            ),
-                          );
-                        },
-                      )),
-                ],
-              ),
+                    child: CustomButtons(
+                      buttonText: 'Sign In',
+                      icon: const Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreateAccount(),
+                          ),
+                        );
+                      },
+                    )),
+              ],
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }

@@ -63,7 +63,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     context: context,
-                    builder: (context) => const AddProject()),
+                    builder: (context) => AddProject()),
               ),
             ),
             IconButton(

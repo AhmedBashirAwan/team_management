@@ -13,13 +13,13 @@ class AddMembers extends StatefulWidget {
 }
 
 class _AddMembersState extends State<AddMembers> {
-  List<String> selectedMembers = [];
+  List<String> selectedMembers = [FirebaseAuth.instance.currentUser!.uid];
 
   final TextEditingController _searchController = TextEditingController();
 
   Future<List<String>> addMembers(List<String> selectedMembers) async {
     final DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('teamData').doc(widget.teamId);
+        FirebaseFirestore.instance.collection('teams').doc(widget.teamId);
 
     await documentReference.update({"members": selectedMembers});
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

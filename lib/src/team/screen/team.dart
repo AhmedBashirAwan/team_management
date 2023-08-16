@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/screen/dashboard.dart';
 import 'package:team_management/src/team/screen/addmembers.dart';
+
+import '../../../controllers/teamcontroller.dart';
 
 class CreateTeam extends StatefulWidget {
   const CreateTeam({super.key});
@@ -15,19 +15,6 @@ class CreateTeam extends StatefulWidget {
 
 class CreateTeamState extends State<CreateTeam> {
   final teamNameController = TextEditingController();
-
-  Future<String> createTeam(
-    String teamName,
-  ) async {
-    Map<String, dynamic> payload = {
-      'teamHead': FirebaseAuth.instance.currentUser!.uid,
-      'title': teamName,
-    };
-    dynamic response =
-        await FirebaseFirestore.instance.collection('teamData').add(payload);
-
-    return response.id.toString();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +44,8 @@ class CreateTeamState extends State<CreateTeam> {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const Spacer(),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                   ],
                 ),
               ),
@@ -107,7 +95,19 @@ class CreateTeamState extends State<CreateTeam> {
                   children: [
                     Expanded(
                       child: TextField(
-                        onSubmitted: (value) {},
+                        onSubmitted: (value) async {
+                          String teamId = await TeamController().createTeam(
+                            teamNameController.text.trim(),
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddMembers(
+                                teamId: teamId,
+                              ),
+                            ),
+                          );
+                        },
                         controller: teamNameController,
                         style: const TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
@@ -135,7 +135,7 @@ class CreateTeamState extends State<CreateTeam> {
               CustomButtons(
                 buttonText: 'Create and Get Started',
                 onPressed: () async {
-                  String teamId = await createTeam(
+                  String teamId = await TeamController().createTeam(
                     teamNameController.text.trim(),
                   );
                   Navigator.push(

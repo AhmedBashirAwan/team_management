@@ -155,12 +155,11 @@ class _ModuelsState extends State<Moduels> {
                           child: InkWell(
                             onTap: () {
                               String selectedModuleId = moduleIds[index];
-                              print("Selected Module ID: $selectedModuleId");
-
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Tasks(
+                                    projectID: widget.projectId,
                                     modueld: selectedModuleId,
                                   ),
                                 ),
@@ -190,8 +189,7 @@ class _ModuelsState extends State<Moduels> {
                   ),
                 ),
                 const Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     children: [
                       Text(
@@ -255,7 +253,11 @@ class _ModuelsState extends State<Moduels> {
                               ),
                               Expanded(
                                 child: TextField(
-                                  onSubmitted: (value) {},
+                                  onSubmitted: (value) async {
+                                    await addModuleAndRefresh(
+                                        moduelTitleController.text.trim());
+                                    moduelTitleController.clear();
+                                  },
                                   controller: moduelTitleController,
                                   style: const TextStyle(color: Colors.black),
                                   cursorColor: Colors.blue,

@@ -11,17 +11,4 @@ class TasksController {
     await FirebaseFirestore.instance.collection('tasks').add(payload);
     return null;
   }
-
-  Future<List<Map<String, dynamic>>> getTasksData() async {
-    final querySnapshot =
-        await FirebaseFirestore.instance.collection('tasks').get();
-
-    List<Map<String, dynamic>> tasks = [];
-
-    for (var doc in querySnapshot.docs) {
-      tasks.add(doc.data());
-    }
-
-    return tasks;
-  }
 }

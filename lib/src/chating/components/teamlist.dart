@@ -31,11 +31,8 @@ class _TeamListState extends State<TeamList> {
         'teamLead': teamLead,
       };
 
-      DocumentReference docRef = FirebaseFirestore.instance
-          .collection('teamData')
-          .doc(widget
-              .teamId); // Assuming widget.teamId is the desired document ID
-
+      DocumentReference docRef =
+          FirebaseFirestore.instance.collection('teams').doc(widget.teamId);
       await docRef.update(payload);
 
       return 'Team lead updated successfully';

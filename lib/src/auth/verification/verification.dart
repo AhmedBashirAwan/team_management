@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/verification/components/confirmed.dart';
@@ -56,14 +55,14 @@ class _VerificationState extends State<Verification> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  OtpTextField(
-                    numberOfFields: 4,
-                    borderColor: const Color.fromARGB(255, 8, 8, 8),
-                    showFieldAsBox: true,
-                    onSubmit: (String verificationCode) async {
-                      otp.text = verificationCode;
-                    },
-                  ),
+                  // OtpTextField(
+                  //   numberOfFields: 4,
+                  //   borderColor: const Color.fromARGB(255, 8, 8, 8),
+                  //   showFieldAsBox: true,
+                  //   onSubmit: (String verificationCode) async {
+                  //     otp.text = verificationCode;
+                  //   },
+                  // ),
                 ],
               ),
             ),

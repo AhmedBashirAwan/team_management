@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/src/auth/register/register.dart';
-
+import '../../../../controllers/usercontroller.dart';
 import '../../../../globals.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -20,6 +19,31 @@ class _CreateAccountState extends State<CreateAccount> {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final languagesController = TextEditingController();
+  final technologiesController = TextEditingController();
+  // ignore: unused_field
+  String _emailError = '';
+  bool isReadOnly = true;
+
+  void _validateEmail(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        _emailError = 'Please enter an email address';
+      });
+    } else {
+      final emailRegExp =
+          RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+      if (!emailRegExp.hasMatch(value)) {
+        setState(() {
+          _emailError = 'Please enter a valid email address';
+        });
+      } else {
+        setState(() {
+          _emailError = '';
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -27,15 +51,6 @@ class _CreateAccountState extends State<CreateAccount> {
     passwordController.dispose();
     fullNameController.dispose();
     super.dispose();
-  }
-
-  Future<void> addUserDetails(String fullName, String email) async {
-    Map<String, dynamic> payload = {
-      'userId': USER_ID,
-      'email': email,
-      'fullName': fullName,
-    };
-    await FirebaseFirestore.instance.collection('userData').add(payload);
   }
 
   @override
@@ -91,7 +106,6 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     Expanded(
                       child: TextField(
-                        onSubmitted: (value) {},
                         controller: fullNameController,
                         style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
@@ -138,6 +152,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     Expanded(
                       child: TextField(
+                        onChanged: _validateEmail,
                         controller: emailController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
@@ -188,10 +203,8 @@ class _CreateAccountState extends State<CreateAccount> {
                         controller: passwordController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
-
                         cursorColor: Colors.blue,
-                        obscureText:
-                            !_passwordVisible, // Toggle password visibility
+                        obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           hintText: 'Password',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
@@ -242,11 +255,12 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     Expanded(
                       child: TextField(
+                        controller: technologiesController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: 'Specialities',
+                          hintText: 'Technologies',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -257,13 +271,18 @@ class _CreateAccountState extends State<CreateAccount> {
                           disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
+                          enabled: isReadOnly,
                         ),
                       ),
                     ),
                     IconTheme(
                       data: IconThemeData(color: Colors.blue.shade700),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isReadOnly = !isReadOnly;
+                          });
+                        },
                         icon: const Icon(Icons.arrow_drop_down),
                       ),
                     ),
@@ -288,11 +307,12 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     Expanded(
                       child: TextField(
+                        controller: languagesController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          hintText: 'FrameWork',
+                          hintText: 'Languages',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -303,6 +323,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
+                          enabled: isReadOnly,
                         ),
                       ),
                     ),
@@ -346,7 +367,8 @@ class _CreateAccountState extends State<CreateAccount> {
                           password: passwordController.text.trim(),
                         );
                         USER_ID = userCredential.user!.uid;
-                        await addUserDetails(fullNameController.text.trim(),
+                        await UserController().addUserDetails(
+                            fullNameController.text.trim(),
                             emailController.text.trim());
                         Navigator.push(
                           context,

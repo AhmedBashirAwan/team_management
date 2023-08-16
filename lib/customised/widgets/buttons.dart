@@ -19,14 +19,14 @@ class CustomButtons extends StatelessWidget {
       height: 55,
       width: getwidth(context),
       child: ElevatedButton(
-        onPressed: onPressed, // Use the provided onPressed function
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
             vertical: 12.0,
           ),
-          backgroundColor: Colors.blue, // Button color
-          foregroundColor: Colors.white, // Text color
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

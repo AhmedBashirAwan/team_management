@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/controllers/teamcontroller.dart';
 import 'package:team_management/customised/widgets/bottomnavigation.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/components/drawer.dart';
 import 'package:team_management/src/projects/screens/moduels.dart';
+import '../../../controllers/usercontroller.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -14,45 +16,17 @@ class Dashboard extends StatefulWidget {
 }
 
 class DashboardState extends State<Dashboard> {
-  Future<String?> getUserData() async {
-    final getData = await FirebaseFirestore.instance
-        .collection('userData')
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get();
-
-    dynamic data = getData.docs.first.data();
-    print(data['fullName']);
-    return data['fullName'];
-  }
-
   List<String> projectIds = [];
   List<String> projectNames = [];
   Future<void> userProjects() async {
-    try {
-      QuerySnapshot moduleSnapshot = await FirebaseFirestore.instance
-          .collection('projects')
-          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .get();
-      moduleSnapshot;
-      if (moduleSnapshot.docs.isNotEmpty) {
-        setState(() {
-          projectNames =
-              moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
-          projectIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
-        });
-      } else {
-        print("No projects found for user ");
-      }
-    } catch (error) {
-      print("Error fetching projects: $error");
-    }
-  }
+    QuerySnapshot moduleSnapshot =
+        await FirebaseFirestore.instance.collection('projects').get();
 
-  @override
-  void initState() {
-    super.initState();
-    print(FirebaseAuth.instance.currentUser!.uid);
-    userProjects();
+    if (moduleSnapshot.docs.isNotEmpty) {
+      projectNames =
+          moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
+      projectIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
+    }
   }
 
   @override
@@ -70,6 +44,7 @@ class DashboardState extends State<Dashboard> {
       ),
       drawer: const Drawer(child: CustomDrawer()),
       body: FutureBuilder(
+        future: userProjects(),
         builder: (context, snapshot) {
           return ListView(
             shrinkWrap: true,
@@ -95,11 +70,11 @@ class DashboardState extends State<Dashboard> {
                     Row(
                       children: [
                         FutureBuilder<String?>(
-                          future: getUserData(),
+                          future: UserController().getUserData(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const CircularProgressIndicator(); // Show a loading indicator while waiting for data
+                              return const CircularProgressIndicator();
                             } else if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
                             } else {
@@ -143,9 +118,6 @@ class DashboardState extends State<Dashboard> {
                               child: InkWell(
                                 onTap: () {
                                   String selectedProjectId = projectIds[index];
-                                  print(
-                                      "Selected Module ID: $selectedProjectId");
-
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -178,8 +150,8 @@ class DashboardState extends State<Dashboard> {
                       ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       child: Row(
                         children: [
                           Text(
@@ -193,86 +165,56 @@ class DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.73,
-                      // child: ListView.builder(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                      //   physics: const ClampingScrollPhysics(),
-                      //   scrollDirection: Axis.vertical,
-                      //   shrinkWrap: true,
-                      //   // itemCount: userDataList.length,
-                      //   itemBuilder: (context, index) {
-                      //     return GestureDetector(
-                      //       onTap: () {},
-                      //       child: Container(
-                      //         margin: const EdgeInsets.only(top: 10),
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(20),
-                      //         ),
-                      //         height: MediaQuery.of(context).size.height * 0.13,
-                      //         child: Material(
-                      //           elevation: 5,
-                      //           shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(15),
-                      //           ),
-                      //           child: Padding(
-                      //             padding: const EdgeInsets.only(left: 20),
-                      //             child: Row(
-                      //               children: [
-                      //                 Container(
-                      //                   height: 50,
-                      //                   margin: const EdgeInsets.only(left: 5),
-                      //                   child: ClipRRect(
-                      //                     borderRadius:
-                      //                         BorderRadius.circular(100),
-                      //                     child: Image.network(
-                      //                       'https://i2-prod.gazettelive.co.uk/incoming/article20679579.ece/ALTERNATES/s615b/0_jwr_mga_260521willowgracecampbell.jpg',
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 const SizedBox(
-                      //                   width: 15,
-                      //                 ),
-                      //                 Column(
-                      //                   crossAxisAlignment:
-                      //                       CrossAxisAlignment.start,
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment.center,
-                      //                   children: [
-                      //                     Row(
-                      //                       children: [
-                      //                         // Text(
-                      //                         //   userData['fullName'] ?? '',
-                      //                         //   style: TextStyle(
-                      //                         //     fontWeight: FontWeight.w500,
-                      //                         //     fontSize: 16,
-                      //                         //     color: Colors.black,
-                      //                         //   ),
-                      //                         // ),
-                      //                       ],
-                      //                     ),
-                      //                     SizedBox(
-                      //                       height: 3,
-                      //                     ),
-                      //                     // Text(
-                      //                     //   userData['email'] ?? '',
-                      //                     //   style: TextStyle(
-                      //                     //     fontWeight: FontWeight.w500,
-                      //                     //     fontSize: 13,
-                      //                     //     color: Colors.black,
-                      //                     //   ),
-                      //                     // ),
-                      //                   ],
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-                    ),
+                    FutureBuilder<List<Map<String, dynamic>>>(
+                      future: TeamController().getTeamsData(),
+                      builder: (context, snapshot) {
+                        List<Map<String, dynamic>> filteredData = [];
+                        if (snapshot.hasData) {
+                          try {
+                            var teamData = snapshot.data;
+                            if (teamData != null) {
+                              for (var team in teamData) {
+                                var uid =
+                                    FirebaseAuth.instance.currentUser!.uid;
+                                for (var mem in team['members']) {
+                                  if (mem.toString() == uid.toString()) {
+                                    filteredData.add(team);
+                                    break;
+                                  }
+                                }
+                              }
+                            }
+                          } catch (e) {
+                            e;
+                            print(e);
+                          }
+                          return ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            physics: const ClampingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: filteredData.length,
+                            itemBuilder: (context, index) {
+                              final teamName =
+                                  filteredData[index]['name'].toString();
+                              return Container(
+                                height: getHeight(context) * 0.07,
+                                // color: Colors.grey.shade800,
+                                child: Center(
+                                    child: Text(
+                                  teamName,
+                                  style: TextStyle(fontSize: 20),
+                                )),
+                              );
+                            },
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    )
                   ],
                 ),
               ),

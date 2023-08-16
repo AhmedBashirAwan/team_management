@@ -81,6 +81,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ),
                       Expanded(
                         child: TextField(
+                          onSubmitted: (value) async {
+                            await FirebaseAuth.instance.sendPasswordResetEmail(
+                                email: _emailController.text.trim());
+                          },
                           controller: _emailController,
                           style: const TextStyle(
                             color: Colors.black,

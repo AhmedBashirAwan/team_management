@@ -6,6 +6,7 @@ import 'package:team_management/src/auth/register/register.dart';
 import '../../../../customised/widgets/attachaccountbuttons.dart';
 import '../../../../customised/widgets/buttons.dart';
 import '../../../../globals.dart';
+import '../../../Dashboard/screen/dashboard.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -154,8 +155,7 @@ class _LoginState extends State<Login> {
                     child: IconButton(
                       onPressed: () {
                         setState(() {
-                          _passwordVisible =
-                              !_passwordVisible; // Toggle password visibility
+                          _passwordVisible = !_passwordVisible;
                         });
                       },
                       icon: Icon(_passwordVisible
@@ -202,17 +202,17 @@ class _LoginState extends State<Login> {
                         password: _passwordController.text.trim());
                 USER_ID = userCredential.user!.uid;
                 print(USER_ID);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => Dashboard(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Dashboard(),
+                  ),
+                );
               },
             ),
             Divider(
               height: getHeight(context) * 0.03,
-              color: Colors.green,
+              color: Colors.grey.shade700,
               thickness: 1,
             ),
             Links(

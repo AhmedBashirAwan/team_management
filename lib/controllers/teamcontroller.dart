@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class TeamController {
   Future<String> createTeam(
-      String teamName, String teamLead, List<String> members) async {
+      [String? teamName, String? teamLead, List<String>? members]) async {
     Map<String, dynamic> payload = {
       'name': teamName,
       'teamHead': FirebaseAuth.instance.currentUser!.uid,
@@ -20,12 +20,8 @@ class TeamController {
     final querySnapshot =
         await FirebaseFirestore.instance.collection('teams').get();
 
-    List<Map<String, dynamic>> teams = [];
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-    for (var doc in querySnapshot.docs) {
-      teams.add(doc.data());
-    }
-
-    return teams;
+    return allData;
   }
 }

@@ -20,14 +20,6 @@ class _CustomTextBoxState extends State<CustomTextBox> {
     super.dispose();
   }
 
-  void _sendMessage() {
-    final String message = _textEditingController.text.trim();
-    if (message.isNotEmpty) {
-      widget.onSendMessage(message);
-      _textEditingController.clear();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
