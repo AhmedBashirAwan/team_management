@@ -79,17 +79,17 @@ class _TasksState extends State<Tasks> {
   }
 
   Future<void> fetchingTeamMembers() async {
-    //fetchs the doc with the projectsID,docID
+    // Fetch the project document
     DocumentSnapshot<Map<String, dynamic>> projectSnapshot =
         await FirebaseFirestore.instance
             .collection('projects')
             .doc(widget.projectID)
             .get();
 
-    //Aquiring the team from teamID
+    // Get the team ID from the project data
     String? teamID = projectSnapshot.data()?['team_ID'];
 
-    //fetching the team which matches with the teamID
+    // Fetch the team document using the team ID
     if (teamID != null) {
       DocumentSnapshot<Map<String, dynamic>> teamSnapshot =
           await FirebaseFirestore.instance
@@ -97,19 +97,21 @@ class _TasksState extends State<Tasks> {
               .doc(teamID)
               .get();
 
-      //adding those membersIDS to the list
+      // Get the members array from the team data
       List<dynamic> members = teamSnapshot.data()?['members'] ?? [];
 
-      //using member IDs to fetch the usernames
-      for (var personID in members) {
+      // Iterate through members array to fetch user data and add names to the list
+      for (var member in members) {
+        String personID = member['user_ID']; // Assuming your field is 'user_ID'
+
         QuerySnapshot<Map<String, dynamic>> userDataQuerySnapshot =
             await FirebaseFirestore.instance
                 .collection('userData')
                 .where('userId', isEqualTo: personID)
                 .get();
 
+        // Check if user data was found and add the full name to the list
         if (userDataQuerySnapshot.size > 0) {
-          //Adding those names to another list
           String fullName = userDataQuerySnapshot.docs[0].data()?['fullName'] ??
               "No name available";
           teamMembers.add(fullName);
@@ -130,7 +132,7 @@ class _TasksState extends State<Tasks> {
         .get();
 
     if (userQuerySnapshot.docs.isNotEmpty) {
-      final assignTo = userQuerySnapshot.docs.first.get('userId');
+      assignTo = userQuerySnapshot.docs.first.get('userId');
 
       print('Assign to: $assignTo');
     }
@@ -139,7 +141,6 @@ class _TasksState extends State<Tasks> {
   @override
   void initState() {
     super.initState();
-    getAssignId();
     fetchingTeamMembers();
   }
 
@@ -278,12 +279,10 @@ class _TasksState extends State<Tasks> {
                                               actions: [
                                                 TextButton(
                                                     onPressed: () async {
+                                                      await getAssignId();
                                                       await createAssignments(
                                                           taskIDS);
-                                                      await getAssignId();
-                                                      Navigator.pop(
-                                                        context,
-                                                      );
+                                                      Navigator.pop(context);
                                                     },
                                                     child: const Text('Assign'))
                                               ],
@@ -342,7 +341,8 @@ class _TasksState extends State<Tasks> {
                                       await TasksController().addTasks(
                                           _titleController.text.trim(),
                                           widget.modueld,
-                                          _descriptionController.text.trim());
+                                          _descriptionController.text.trim(),
+                                          widget.projectID);
                                       Navigator.pop(context);
                                     },
                                     controller: _titleController,
@@ -369,7 +369,8 @@ class _TasksState extends State<Tasks> {
                                       await TasksController().addTasks(
                                           _titleController.text.trim(),
                                           widget.modueld,
-                                          _descriptionController.text.trim());
+                                          _descriptionController.text.trim(),
+                                          widget.projectID);
                                       Navigator.pop(context);
                                     },
                                     controller: _descriptionController,
@@ -395,7 +396,8 @@ class _TasksState extends State<Tasks> {
                                       await TasksController().addTasks(
                                           _titleController.text.trim(),
                                           widget.modueld,
-                                          _descriptionController.text.trim());
+                                          _descriptionController.text.trim(),
+                                          widget.projectID);
                                       Navigator.pop(
                                         context,
                                       );

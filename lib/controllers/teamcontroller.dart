@@ -20,8 +20,12 @@ class TeamController {
     final querySnapshot =
         await FirebaseFirestore.instance.collection('teams').get();
 
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
+    final allData = querySnapshot.docs.map((doc) {
+      var data = doc.data();
+      data['id'] = doc.id;
+      return data;
+    }).toList();
+    allData;
     return allData;
   }
 }

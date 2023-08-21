@@ -6,6 +6,7 @@ import 'package:team_management/customised/widgets/bottomnavigation.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/components/drawer.dart';
 import 'package:team_management/src/projects/screens/moduels.dart';
+import 'package:team_management/src/team/screen/teamdetails.dart';
 import '../../../controllers/usercontroller.dart';
 
 class Dashboard extends StatefulWidget {
@@ -27,6 +28,13 @@ class DashboardState extends State<Dashboard> {
           moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
       projectIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    TeamController().getTeamsData();
+    UserController().getUserData();
   }
 
   @override
@@ -100,6 +108,22 @@ class DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
+                    Divider(),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Current projects",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: SizedBox(
@@ -155,7 +179,7 @@ class DashboardState extends State<Dashboard> {
                       child: Row(
                         children: [
                           Text(
-                            "Your Team Members are :",
+                            "Your are part of :",
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -177,7 +201,7 @@ class DashboardState extends State<Dashboard> {
                                 var uid =
                                     FirebaseAuth.instance.currentUser!.uid;
                                 for (var mem in team['members']) {
-                                  if (mem.toString() == uid.toString()) {
+                                  if (mem['user_ID'] == uid.toString()) {
                                     filteredData.add(team);
                                     break;
                                   }
@@ -197,14 +221,27 @@ class DashboardState extends State<Dashboard> {
                             itemBuilder: (context, index) {
                               final teamName =
                                   filteredData[index]['name'].toString();
-                              return Container(
-                                height: getHeight(context) * 0.07,
-                                // color: Colors.grey.shade800,
-                                child: Center(
-                                    child: Text(
-                                  teamName,
-                                  style: TextStyle(fontSize: 20),
-                                )),
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TeamDetails(
+                                              teamID: filteredData[index]['id'],
+                                            )),
+                                  );
+                                },
+                                child: Container(
+                                  height: getHeight(context) * 0.07,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Center(
+                                      child: Text(
+                                    teamName,
+                                    style: const TextStyle(fontSize: 20),
+                                  )),
+                                ),
                               );
                             },
                           );

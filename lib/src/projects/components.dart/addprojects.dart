@@ -30,7 +30,7 @@ class _AddProjectState extends State<AddProject> {
         String teamID = snap.docs.first.id;
         return teamID;
       } else {
-        return null; // Team not found
+        return null;
       }
     } catch (e) {
       print("Error getting team ID: $e");
@@ -170,17 +170,16 @@ class _AddProjectState extends State<AddProject> {
                                                     .instance.currentUser!.uid;
                                                 for (var mem
                                                     in team['members']) {
-                                                  mem;
-                                                  if (mem.toString() ==
+                                                  if (mem['user_ID'] ==
                                                       uid.toString()) {
-                                                    print("true");
                                                     filteredData.add(team);
-
                                                     break;
                                                   }
                                                 }
                                               }
                                             }
+                                            print(
+                                                "filtered data from team is $filteredData");
                                           } catch (e) {
                                             e;
                                             print(e);

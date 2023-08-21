@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team_management/src/projects/components.dart/addprojects.dart';
 import 'package:team_management/src/auth/register/register.dart';
+import 'package:team_management/src/tasks/personalTasks.dart';
 import 'package:team_management/src/team/screen/team.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -63,17 +64,17 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     context: context,
-                    builder: (context) => AddProject()),
+                    builder: (context) => const AddProject()),
               ),
             ),
             IconButton(
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => Tasks(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PersonalTasks(),
+                  ),
+                );
               },
               color: Colors.grey.shade700,
               highlightColor: Colors.blue.shade100,

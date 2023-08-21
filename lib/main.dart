@@ -14,7 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -27,31 +27,34 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeChanger()),
-        ChangeNotifierProvider(create: (_) => AppBlok()),
-      ],
-      child: Builder(builder: (BuildContext context) {
-        final themeChanger = Provider.of<ThemeChanger>(context);
-        return MaterialApp(
-          title: 'Flutter Theming Tutorials',
-          theme: ThemeDataRepository.lightTheme,
-          darkTheme: ThemeDataRepository.darkTheme,
-          themeMode: themeChanger.themeMode,
-          debugShowCheckedModeBanner: false,
-          home: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return const Dashboard();
-              } else {
-                return const Login();
-              }
-            },
-          ),
-        );
-      }),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => ThemeChanger()),
+          ChangeNotifierProvider(create: (_) => AppBlok()),
+        ],
+        child: Builder(builder: (BuildContext context) {
+          final themeChanger = Provider.of<ThemeChanger>(context);
+          return MaterialApp(
+            title: 'Flutter Theming Tutorials',
+            theme: ThemeDataRepository.lightTheme,
+            darkTheme: ThemeDataRepository.darkTheme,
+            themeMode: themeChanger.themeMode,
+            debugShowCheckedModeBanner: false,
+            home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return const Dashboard();
+                } else {
+                  return const Login();
+                }
+              },
+            ),
+          );
+        }),
+      ),
     );
   }
 }

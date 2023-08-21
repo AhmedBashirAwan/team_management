@@ -13,20 +13,27 @@ class AddMembers extends StatefulWidget {
 }
 
 class _AddMembersState extends State<AddMembers> {
-  List<String> selectedMembers = [FirebaseAuth.instance.currentUser!.uid];
-
   final TextEditingController _searchController = TextEditingController();
 
-  Future<List<String>> addMembers(List<String> selectedMembers) async {
-    final DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('teams').doc(widget.teamId);
+  List<String> selectedMembers = [FirebaseAuth.instance.currentUser!.uid];
 
-    await documentReference.update({"members": selectedMembers});
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.green,
-        content: Text("Members added to team ${widget.teamId}")));
+  Future<void> addMembers() async {
+    List<Map<String, dynamic>> membersArray = [];
 
-    return selectedMembers;
+    for (var element in selectedMembers) {
+      Map<String, dynamic> memberData = {
+        'user_ID': element,
+        'status': true,
+      };
+      membersArray.add(memberData);
+    }
+
+    await FirebaseFirestore.instance
+        .collection('teams')
+        .doc(widget.teamId)
+        .update({
+      'members': FieldValue.arrayUnion(membersArray),
+    });
   }
 
   static Future<List<Map<String, dynamic>>> getUsersList() async {
@@ -227,15 +234,15 @@ class _AddMembersState extends State<AddMembers> {
               children: [
                 FloatingActionButton(
                   onPressed: () async {
-                    List<String> selectedTeam =
-                        await addMembers(selectedMembers);
+                    addMembers();
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => TeamList(
-                            selectedMembers: selectedTeam,
-                            teamId: widget.teamId),
+                          selectedMembers: selectedMembers,
+                          teamId: widget.teamId,
+                        ),
                       ),
                     );
                   },
