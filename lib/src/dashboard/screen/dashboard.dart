@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/controllers/teamcontroller.dart';
 import 'package:team_management/customised/widgets/bottomnavigation.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/components/drawer.dart';
-import 'package:team_management/src/projects/screens/moduels.dart';
-import 'package:team_management/src/team/screen/teamdetails.dart';
 import '../../../controllers/usercontroller.dart';
 
 class Dashboard extends StatefulWidget {
@@ -41,13 +38,27 @@ class DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        backgroundColor: const Color(0xFF272525),
+        title: const Text('Dashboard'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none_outlined),
-            color: Colors.black,
-            onPressed: () {},
-          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10, top: 5),
+            child: Container(
+              width: getwidth(context) * 0.13,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 1.0,
+                ),
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          )
         ],
       ),
       drawer: const Drawer(child: CustomDrawer()),
@@ -61,16 +72,14 @@ class DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
                     const Row(
                       children: [
                         Text(
-                          'Hello,',
+                          'Hello ,',
                           style: TextStyle(
+                            fontFamily: 'Poppins',
                             fontSize: 40,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -92,166 +101,109 @@ class DashboardState extends State<Dashboard> {
                               }
                               return Text(
                                 userData,
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF92BB64),
+                                ),
                               );
                             }
                           },
                         ),
-                        Icon(
-                          Icons.waving_hand_rounded,
-                          color: Colors.orange.shade600,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.calendar_today_outlined),
-                        ),
                       ],
                     ),
-                    Divider(),
+                    const Row(
+                      children: [
+                        Text(
+                          'Stay Organized And efficient',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      ],
+                    ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                       child: Row(
                         children: [
                           Text(
-                            "Current projects",
+                            "Project Goals",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
                               color: Colors.black,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.22,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: projectNames.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                    const Row(
+                      children: [
+                        InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'To Do',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
-                              child: InkWell(
-                                onTap: () {
-                                  String selectedProjectId = projectIds[index];
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Moduels(
-                                        projectId: selectedProjectId,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade300,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  height: getHeight(context) * 0.22,
-                                  width: getwidth(context) * 0.6,
-                                  child: Center(
-                                    child: Text(
-                                      projectNames[index],
-                                      style: const TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Your are part of :",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
+                        InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'In Progress',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'Done',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'All',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    FutureBuilder<List<Map<String, dynamic>>>(
-                      future: TeamController().getTeamsData(),
-                      builder: (context, snapshot) {
-                        List<Map<String, dynamic>> filteredData = [];
-                        if (snapshot.hasData) {
-                          try {
-                            var teamData = snapshot.data;
-                            if (teamData != null) {
-                              for (var team in teamData) {
-                                var uid =
-                                    FirebaseAuth.instance.currentUser!.uid;
-                                for (var mem in team['members']) {
-                                  if (mem['user_ID'] == uid.toString()) {
-                                    filteredData.add(team);
-                                    break;
-                                  }
-                                }
-                              }
-                            }
-                          } catch (e) {
-                            e;
-                            print(e);
-                          }
-                          return ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            physics: const ClampingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: filteredData.length,
-                            itemBuilder: (context, index) {
-                              final teamName =
-                                  filteredData[index]['name'].toString();
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TeamDetails(
-                                              teamID: filteredData[index]['id'],
-                                            )),
-                                  );
-                                },
-                                child: Container(
-                                  height: getHeight(context) * 0.07,
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey.shade300,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Center(
-                                      child: Text(
-                                    teamName,
-                                    style: const TextStyle(fontSize: 20),
-                                  )),
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    )
+                    const Divider(
+                      color: Colors.black,
+                    ),
                   ],
                 ),
               ),

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_management/src/projects/components.dart/addprojects.dart';
 import 'package:team_management/src/auth/register/register.dart';
-import 'package:team_management/src/tasks/personalTasks.dart';
-import 'package:team_management/src/team/screen/team.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({super.key});
@@ -14,82 +11,74 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: const Color(0xFF272525),
       height: getHeight(context) * 0.08,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => TeamList(),
-                //   ),
-                // );
-              },
-              color: Colors.grey.shade700,
-              highlightColor: Colors.blue.shade100,
-              iconSize: 35,
-              icon: const Icon(
-                Icons.message_outlined,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateTeam(),
+            InkWell(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.home_outlined,
+                    color: Colors.white,
                   ),
-                );
-              },
-              color: Colors.grey.shade700,
-              highlightColor: Colors.blue.shade100,
-              iconSize: 35,
-              icon: const Icon(Icons.person_2),
-            ),
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.blue, //<-- SEE HERE
-              child: IconButton(
-                iconSize: 40,
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-                onPressed: () => showBottomSheet(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    context: context,
-                    builder: (context) => const AddProject()),
+                  Text(
+                    'Home',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  )
+                ],
               ),
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PersonalTasks(),
+            InkWell(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.calendar_month_outlined,
+                    color: Colors.white,
                   ),
-                );
-              },
-              color: Colors.grey.shade700,
-              highlightColor: Colors.blue.shade100,
-              iconSize: 35,
-              icon: const Icon(
-                Icons.task_sharp,
+                  Text(
+                    'Calendar',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  )
+                ],
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              color: Colors.grey.shade700,
-              highlightColor: Colors.blue.shade100,
-              iconSize: 30,
-              icon: const Icon(Icons.check_circle),
-            )
+            InkWell(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_box_outlined,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Add Task',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  )
+                ],
+              ),
+            ),
+            InkWell(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.messenger_outline_rounded,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Message',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -24,6 +24,23 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF272525),
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Login(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Container(
         color: Colors.white,
         child: Padding(
@@ -31,24 +48,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Login(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.arrow_back),
-                    ),
-                  ],
-                ),
-              ),
               Row(
                 children: [
                   Text(
@@ -64,63 +63,62 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 2.0,
+              const Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Text(
+                      'Email',
+                      style: TextStyle(fontSize: 13),
                     ),
+                  )
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
                   ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: getwidth(context) * 0.03,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          onSubmitted: (value) async {
-                            await FirebaseAuth.instance.sendPasswordResetEmail(
-                                email: _emailController.text.trim());
-                          },
-                          controller: _emailController,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: getwidth(context) * 0.03,
+                    ),
+                    Expanded(
+                      child: TextField(
+                        onSubmitted: (value) async {
+                          await FirebaseAuth.instance.sendPasswordResetEmail(
+                              email: _emailController.text.trim());
+                        },
+                        controller: _emailController,
+                        style: Theme.of(context).textTheme.titleSmall,
+                        cursorColor: const Color(0xFF92BB64),
+                        decoration: InputDecoration(
+                          hintText: 'jhon123@gmail.com',
+                          hintStyle: Theme.of(context).textTheme.titleSmall,
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          cursorColor: Colors.blue,
-                          decoration: const InputDecoration(
-                            hintText: 'Email',
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 18,
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            disabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          disabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),
-                      IconTheme(
-                        data: IconThemeData(color: Colors.blue.shade700),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.alternate_email_outlined),
-                        ),
+                    ),
+                    IconTheme(
+                      data: const IconThemeData(color: Color(0xFF92BB64)),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.alternate_email_outlined),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const Spacer(),

@@ -33,7 +33,6 @@ class _AddProjectState extends State<AddProject> {
         return null;
       }
     } catch (e) {
-      print("Error getting team ID: $e");
       return null;
     }
   }
@@ -65,7 +64,7 @@ class _AddProjectState extends State<AddProject> {
                 const Row(
                   children: [
                     Text(
-                      'Task Title',
+                      'Project Title',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -100,7 +99,6 @@ class _AddProjectState extends State<AddProject> {
                                 ),
                               ),
                             );
-                            print(projectId);
                           },
                           controller: projectTitleController,
                           style: const TextStyle(color: Colors.black),
@@ -178,11 +176,8 @@ class _AddProjectState extends State<AddProject> {
                                                 }
                                               }
                                             }
-                                            print(
-                                                "filtered data from team is $filteredData");
                                           } catch (e) {
                                             e;
-                                            print(e);
                                           }
                                           return ListView.builder(
                                             physics:

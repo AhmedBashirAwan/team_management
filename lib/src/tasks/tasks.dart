@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +114,7 @@ class _TasksState extends State<Tasks> {
 
         // Check if user data was found and add the full name to the list
         if (userDataQuerySnapshot.size > 0) {
-          String fullName = userDataQuerySnapshot.docs[0].data()?['fullName'] ??
+          String fullName = userDataQuerySnapshot.docs[0].data()['fullName'] ??
               "No name available";
           teamMembers.add(fullName);
         } else {
@@ -133,8 +135,6 @@ class _TasksState extends State<Tasks> {
 
     if (userQuerySnapshot.docs.isNotEmpty) {
       assignTo = userQuerySnapshot.docs.first.get('userId');
-
-      print('Assign to: $assignTo');
     }
   }
 
@@ -320,7 +320,7 @@ class _TasksState extends State<Tasks> {
                               ),
                             );
                           },
-                          icon: Icon(Icons.arrow_back)),
+                          icon: const Icon(Icons.arrow_back)),
                     ),
                   ),
                   const Spacer(),
@@ -424,8 +424,8 @@ class _TasksState extends State<Tasks> {
       position: const RelativeRect.fromLTRB(100, 100, 0, 0),
       items: teamMembers.map((String item) {
         return PopupMenuItem<String>(
-          child: Text(item),
           value: item,
+          child: Text(item),
         );
       }).toList(),
     );

@@ -14,13 +14,16 @@ class UserController {
   }
 
   Future<String?> getUserData() async {
-    final getData = await FirebaseFirestore.instance
-        .collection('userData')
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get();
-
-    dynamic data = getData.docs.first.data();
-    return data['fullName'];
+    try {
+      final getData = await FirebaseFirestore.instance
+          .collection('userData')
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      dynamic data = getData.docs.first.data();
+      return data['fullName'];
+    } catch (e) {
+      return "null name";
+    }
   }
 
   Future<void> updateUserData(String newName) async {

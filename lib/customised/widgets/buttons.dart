@@ -3,14 +3,14 @@ import 'package:team_management/src/auth/register/register.dart';
 
 class CustomButtons extends StatelessWidget {
   final String buttonText;
-  final Icon? icon; // Make the Icon nullable by using Icon?
-  final void Function()? onPressed; // New onPressed property
+  final Icon? icon;
+  final void Function()? onPressed;
 
   const CustomButtons({
     Key? key,
     required this.buttonText,
     this.icon,
-    this.onPressed, // Add onPressed to the constructor
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class CustomButtons extends StatelessWidget {
             horizontal: 16.0,
             vertical: 12.0,
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: const Color(0xFF92BB64),
           foregroundColor: Colors.white,
         ),
         child: Row(

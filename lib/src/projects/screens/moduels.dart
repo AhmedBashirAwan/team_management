@@ -58,11 +58,9 @@ class _ModuelsState extends State<Moduels> {
               moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
           moduleIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
         });
-      } else {
-        print("No modules found for project ${widget.projectId}");
-      }
+      } else {}
     } catch (error) {
-      print("Error fetching modules: $error");
+      error;
     }
   }
 

@@ -1,8 +1,11 @@
+// ignore_for_file: unused_field
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/customised/widgets/buttons.dart';
 import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/src/auth/register/register.dart';
+import 'package:team_management/src/auth/wellcome/screen/welcom.dart';
 import '../../../../controllers/usercontroller.dart';
 import '../../../../globals.dart';
 
@@ -21,7 +24,6 @@ class _CreateAccountState extends State<CreateAccount> {
   final passwordController = TextEditingController();
   final languagesController = TextEditingController();
   final technologiesController = TextEditingController();
-  // ignore: unused_field
   String _emailError = '';
   bool isReadOnly = true;
 
@@ -56,26 +58,29 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF272525),
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WelcomeScreen(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Login(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.arrow_back))
-                ],
-              ),
               Row(
                 children: [
                   Text(
@@ -96,7 +101,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: Colors.grey,
-                    width: 2.0,
+                    width: 1.0,
                   ),
                 ),
                 child: Row(
@@ -108,7 +113,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       child: TextField(
                         controller: fullNameController,
                         style: Theme.of(context).textTheme.titleSmall,
-                        cursorColor: Colors.blue,
+                        cursorColor: const Color(0xFF92BB64),
                         decoration: InputDecoration(
                           hintText: 'Name',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
@@ -125,7 +130,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                     ),
                     IconTheme(
-                      data: IconThemeData(color: Colors.blue.shade700),
+                      data: const IconThemeData(color: Color(0xFF92BB64)),
                       child: IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.check_circle_outline_outlined),
@@ -142,7 +147,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: Colors.grey,
-                    width: 2.0,
+                    width: 1.0,
                   ),
                 ),
                 child: Row(
@@ -156,7 +161,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         controller: emailController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
-                        cursorColor: Colors.blue,
+                        cursorColor: const Color(0xFF92BB64),
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
@@ -173,7 +178,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                     ),
                     IconTheme(
-                      data: IconThemeData(color: Colors.blue.shade700),
+                      data: const IconThemeData(color: Color(0xFF92BB64)),
                       child: IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.check_circle_outline_outlined),
@@ -190,7 +195,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: Colors.grey,
-                    width: 2.0,
+                    width: 1.0,
                   ),
                 ),
                 child: Row(
@@ -203,7 +208,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         controller: passwordController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
-                        cursorColor: Colors.blue,
+                        cursorColor: const Color(0xFF92BB64),
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           hintText: 'Password',
@@ -221,7 +226,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                     ),
                     IconTheme(
-                      data: IconThemeData(color: Colors.blue.shade700),
+                      data: const IconThemeData(color: Color(0xFF92BB64)),
                       child: IconButton(
                         onPressed: () {
                           setState(() {
@@ -245,7 +250,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: Colors.grey,
-                    width: 2.0,
+                    width: 1.0,
                   ),
                 ),
                 child: Row(
@@ -258,7 +263,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         controller: technologiesController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
-                        cursorColor: Colors.blue,
+                        cursorColor: const Color(0xFF92BB64),
                         decoration: InputDecoration(
                           hintText: 'Technologies',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
@@ -276,7 +281,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                     ),
                     IconTheme(
-                      data: IconThemeData(color: Colors.blue.shade700),
+                      data: const IconThemeData(color: Color(0xFF92BB64)),
                       child: IconButton(
                         onPressed: () {
                           setState(() {
@@ -297,7 +302,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: Colors.grey,
-                    width: 2.0,
+                    width: 1.0,
                   ),
                 ),
                 child: Row(
@@ -310,7 +315,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         controller: languagesController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
-                        cursorColor: Colors.blue,
+                        cursorColor: const Color(0xFF92BB64),
                         decoration: InputDecoration(
                           hintText: 'Languages',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
@@ -343,6 +348,7 @@ class _CreateAccountState extends State<CreateAccount> {
               Row(
                 children: [
                   Checkbox(
+                    activeColor: const Color(0xFF92BB64),
                     value: _isChecked,
                     onChanged: (bool? value) {
                       setState(() {
@@ -399,59 +405,17 @@ class _CreateAccountState extends State<CreateAccount> {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'LogIn',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.blue.shade600,
-                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF92BB64),
                         ),
                       ),
                     ),
                   ],
                 ),
-                // Column(
-                //   children: [
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Text(
-                //           'By continuing, you agree to our ',
-                //         ),
-                //         GestureDetector(
-                //           onTap: () {},
-                //           child: Text(
-                //             'Privacy Policy ',
-                //             style: TextStyle(
-                //               color: Colors.orange.shade700,
-                //               decoration: TextDecoration.underline,
-                //               fontSize: 14,
-                //             ),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Text(
-                //           'and ',
-                //         ),
-                //         GestureDetector(
-                //           onTap: () {},
-                //           child: Text(
-                //             'terms of service.',
-                //             style: TextStyle(
-                //               color: Colors.orange.shade700,
-                //               decoration: TextDecoration.underline,
-                //               fontSize: 14,
-                //             ),
-                //           ),
-                //         ),
-                //       ],
-                //     )
-                //   ],
-                // ),
               ),
             ],
           ),
@@ -460,11 +424,3 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 }
-
-Map<String, List<String>> speacialities = {
-  'Front End developer': ['Flutter', 'CSS', 'HTML'],
-  'Back End developer': ['Java', 'Python', 'JavaScript'],
-  'Designer': ['Figma', 'Adobe XD'],
-  'QA': ['Quality Assurance'],
-  'Database Engineer': ['Mysql', 'MongoDB']
-};

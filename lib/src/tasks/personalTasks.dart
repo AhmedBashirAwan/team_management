@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class PersonalTasks extends StatefulWidget {
   const PersonalTasks({Key? key}) : super(key: key);
@@ -11,6 +11,7 @@ class PersonalTasks extends StatefulWidget {
 
 class _PersonalTasksState extends State<PersonalTasks> {
   List<String> assignedTask = [];
+
   Future<void> usersAssigns() async {
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection('assignments')
@@ -18,7 +19,10 @@ class _PersonalTasksState extends State<PersonalTasks> {
         .get();
 
     if (snap.docs.isNotEmpty) {
-      assignedTask = snap.docs.map((doc) => doc['task_ID'] as String).toList();
+      setState(() {
+        assignedTask =
+            snap.docs.map((doc) => doc['task_ID'] as String).toList();
+      });
     }
   }
 
@@ -41,12 +45,26 @@ class _PersonalTasksState extends State<PersonalTasks> {
     }
   }
 
+  Future<void> updatingAssigns(bool status, String id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('assignments')
+        .where('task_ID', isEqualTo: id)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      String assignmentDocId = querySnapshot.docs[0].id;
+      await FirebaseFirestore.instance
+          .collection('assignments')
+          .doc(assignmentDocId)
+          .update({'status': status, 'completedAt': DateTime.now()});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    usersAssigns().then((_) {
-      setState(() {});
-    });
+    usersAssigns();
   }
 
   @override
@@ -85,7 +103,7 @@ class _PersonalTasksState extends State<PersonalTasks> {
                     return ListView.builder(
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: taskTitle.length,
+                      itemCount: assignedTask.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -97,16 +115,17 @@ class _PersonalTasksState extends State<PersonalTasks> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
                                     height: 20,
                                     width: 20,
                                     child: Center(
                                       child: Text(
                                         '$index',
                                         style: const TextStyle(
-                                            color: Colors.white),
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -121,17 +140,42 @@ class _PersonalTasksState extends State<PersonalTasks> {
                                       Text(
                                         taskTitle[index],
                                         style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
                                       ),
                                       Text(
                                         taskDescription[index],
                                         style: TextStyle(
-                                            color: Colors.grey.shade700),
-                                      )
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
                                     ],
-                                  )
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      showMenu<bool>(
+                                        context: context,
+                                        position: const RelativeRect.fromLTRB(
+                                            100, 100, 0, 0),
+                                        items: [
+                                          const PopupMenuItem<bool>(
+                                            value: true,
+                                            child: Text('Completed'),
+                                          ),
+                                        ],
+                                        elevation: 8.0,
+                                      ).then((value) {
+                                        if (value != null) {
+                                          updatingAssigns(
+                                              value, assignedTask[index]);
+                                        }
+                                      });
+                                    },
+                                    child: const Icon(Icons.more_vert),
+                                  ),
                                 ],
                               ),
                             ),
@@ -141,7 +185,7 @@ class _PersonalTasksState extends State<PersonalTasks> {
                     );
                   }
                 },
-              )
+              ),
             ],
           ),
         ),

@@ -1,8 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/src/team/screen/addmembers.dart';
 
 class TeamDetails extends StatefulWidget {
-  TeamDetails({Key? key, required this.teamID}) : super(key: key);
+  const TeamDetails({Key? key, required this.teamID}) : super(key: key);
   final String teamID;
 
   @override
@@ -13,14 +16,9 @@ class _TeamDetailsState extends State<TeamDetails> {
   late String teamLead;
   late String teamHead;
   late String teamName;
-  // late List<String> currentMembers;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchingTeamsDetails();
-  }
-
+  late List<String>? currentMembers = [];
+  late List<String>? memNames = [];
+  late List<String>? allUsersList = [];
   Future<void> fetchingTeamsDetails() async {
     //getting all the data from the team docs
     DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
@@ -30,7 +28,7 @@ class _TeamDetailsState extends State<TeamDetails> {
         .get();
     teamName = snap['name'];
 
-    //converting all the userIds to userNames
+    //converting teamLead uerID to Name
     String lead = snap['teamLead'];
     QuerySnapshot query = await FirebaseFirestore.instance
         .collection('userData')
@@ -40,7 +38,7 @@ class _TeamDetailsState extends State<TeamDetails> {
       teamLead = query.docs[0]['fullName'];
     }
 
-    //converting all the userIds to userNames
+    //converting teamHeads userId to Name
     String head = snap['teamHead'];
     QuerySnapshot data = await FirebaseFirestore.instance
         .collection('userData')
@@ -50,7 +48,41 @@ class _TeamDetailsState extends State<TeamDetails> {
       teamHead = query.docs[0]['fullName'];
     }
 
-    // currentMembers = snap['members'];
+    //getting teamMemberUID
+    dynamic teamData = snap.data();
+    for (var element in teamData['members']) {
+      currentMembers!.add(element['user_ID']);
+    }
+
+    //coverting these UIDS to a names
+    for (var mem in currentMembers!) {
+      QuerySnapshot<Map<String, dynamic>> memSnap = await FirebaseFirestore
+          .instance
+          .collection('userData')
+          .where('userId', isEqualTo: mem)
+          .get();
+
+      memNames!.add(memSnap.docs[0]['fullName'] as String);
+    }
+  }
+
+  Future<void> deleteMember(String selectedGuy) async {
+    DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
+        .instance
+        .collection('teams')
+        .doc(widget.teamID)
+        .get();
+    Map<String, dynamic>? snapData = snap.data();
+
+    List<dynamic>? members = snapData?['members']?.cast<String>();
+    members?.remove(selectedGuy);
+
+    await FirebaseFirestore.instance
+        .collection('teams')
+        .doc(widget.teamID)
+        .update({
+      'members': members,
+    });
   }
 
   @override
@@ -62,7 +94,7 @@ class _TeamDetailsState extends State<TeamDetails> {
           future: fetchingTeamsDetails(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Loading indicator
+              return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -75,7 +107,7 @@ class _TeamDetailsState extends State<TeamDetails> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.close),
+                        icon: const Icon(Icons.close),
                       ),
                       const Expanded(
                         child: Row(
@@ -105,14 +137,14 @@ class _TeamDetailsState extends State<TeamDetails> {
                         children: [
                           Text(
                             teamName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                             ),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.04,
                           ),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
@@ -132,11 +164,11 @@ class _TeamDetailsState extends State<TeamDetails> {
                               children: [
                                 Text(
                                   teamHead,
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                                 Text(
                                   teamLead,
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
@@ -149,71 +181,89 @@ class _TeamDetailsState extends State<TeamDetails> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           'Team Members',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Spacer(),
-                        InkWell(child: Icon(Icons.add)),
+                        const Spacer(),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddMembers(teamId: widget.teamID),
+                                ),
+                              );
+                            },
+                            child: const Icon(Icons.add)),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: 0, // Replace with the actual item count
+                      itemCount: memNames!.length,
                       itemBuilder: (context, index) {
-                        // Replace with logic to populate list items
-                        return Container(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '1',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w300,
-                                          ),
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Row(
+                                children: [
+                                  Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w300,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.05,
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.05,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        memNames![index],
+                                      ),
+                                      const Text(
+                                        'Status',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      // deleteMember(currentMembers![index]);
+                                    },
+                                    child: const Icon(
+                                      Icons.minimize,
+                                      size: 30,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'Name'), // Replace with actual name
-                                        Text(
-                                          'Role', // Replace with actual role
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                              Divider(),
-                            ],
-                          ),
+                            ),
+                            const Divider(),
+                          ],
                         );
                       },
                     ),

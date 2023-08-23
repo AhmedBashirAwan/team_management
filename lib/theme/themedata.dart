@@ -5,19 +5,16 @@ class ThemeDataRepository {
     brightness: Brightness.light,
     textTheme: const TextTheme(
       titleSmall: TextStyle(
+        fontFamily: 'Poppins',
         color: Colors.black,
-        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        fontSize: 12,
       ),
       titleMedium: TextStyle(
+        fontFamily: 'Poppins',
         color: Colors.black,
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    appBarTheme: const AppBarTheme(
-      color: Colors.white,
-      iconTheme: IconThemeData(
-        color: Colors.black,
+        fontSize: 26,
+        fontWeight: FontWeight.w600,
       ),
     ),
   );
@@ -31,13 +28,15 @@ class ThemeDataRepository {
     ),
     textTheme: const TextTheme(
       titleSmall: TextStyle(
-        color: Colors.white,
-        fontSize: 16,
-      ),
+          fontFamily: 'Poppins',
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.w500),
       titleMedium: TextStyle(
         color: Colors.white,
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
+        fontFamily: 'Poppins',
+        fontSize: 26,
+        fontWeight: FontWeight.w600,
       ),
     ),
     appBarTheme: const AppBarTheme(

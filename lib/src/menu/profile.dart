@@ -48,17 +48,13 @@ class _ProfileState extends State<Profile> {
       if (userQuerySnapshot.docs.isNotEmpty) {
         final userDoc = userQuerySnapshot.docs.first;
         await userDoc.reference.update({'imageURL': urlDownload});
-        print('URL saved in Firestore successfully!');
       } else {
         await FirebaseFirestore.instance.collection('userData').add({
           'userId': FirebaseAuth.instance.currentUser!.uid,
           'imageURL': urlDownload,
         });
-        print('New user document created with URL in Firestore!');
       }
-    } catch (e) {
-      print('Error saving URL in Firestore: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> loadAssetImage() async {
