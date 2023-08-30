@@ -1,108 +1,111 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:team_management/customised/widgets/bottomnavigation.dart';
-import 'package:team_management/src/auth/register/register.dart';
+import '../../customised/widgets/bottomnavigation.dart';
+import '../auth/register/register.dart';
 
-class CreateProject extends StatefulWidget {
-  const CreateProject({super.key});
+class OpenTasks extends StatefulWidget {
+  const OpenTasks({super.key});
 
   @override
-  State<CreateProject> createState() => _CreateProjectState();
+  State<OpenTasks> createState() => _OpenTasksState();
 }
 
-class _CreateProjectState extends State<CreateProject> {
+class _OpenTasksState extends State<OpenTasks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF272525),
-        leading: const Icon(Icons.arrow_back),
+        leading: Icon(Icons.arrow_back),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white, // Background color
-                  foregroundColor: Colors.black, // Text color
-                  elevation: 5, // Elevation (shadow)
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 10), // Padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // Border radius
-                  ),
+            padding:
+                const EdgeInsets.only(right: 10, top: 10, bottom: 6, left: 10),
+            child: Container(
+              width: getwidth(context) * 0.1,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 1.0,
                 ),
-                onPressed: () {},
-                child: const Text('Create')),
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
           )
         ],
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 5),
+            Row(
+              children: [
+                Text(
+                  'Landing Page Design',
+                  style: TextStyle(
+                      color: Color(0xFF3A3A3A),
+                      fontSize: 16,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
-                  Text(
-                    'Project',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF575757)),
-                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF92BB64), // Background color
+                        foregroundColor: Colors.white, // Text color
+                        elevation: 5, // Elevation (shadow)
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10), // Padding
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(30), // Border radius
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          const Text('Work In Progress'),
+                          Icon(Icons.arrow_drop_down)
+                        ],
+                      )),
                 ],
               ),
             ),
-            SizedBox(
-              height: getHeight(context) * 0.05,
-              child: TextField(
-                decoration: InputDecoration(
-                    suffixIconColor: Color(0xFFA8A8A8),
-                    suffixIcon: Icon(
-                      Icons.arrow_drop_down_outlined,
-                    ),
-                    hintText: 'Enter your Project Name',
-                    hintStyle: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400)),
-              ),
+            Row(
+              children: [
+                Text(
+                  'Summary',
+                  style: TextStyle(
+                      color: Color(0xFF575757),
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600),
+                ),
+              ],
             ),
-            const Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 10),
-              child: Row(
-                children: [
-                  Text(
-                    'Summary',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF575757)),
-                  ),
-                ],
-              ),
+            const SizedBox(
+              height: 5,
             ),
             const Row(
               children: [
-                Text(
-                  'Add Description',
-                  style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF575757)),
-                ),
+                Text('Add Description'),
               ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
               child: DottedBorder(
                 dashPattern: [5, 5],
-                color: Color(0xFF75A143),
+                color: const Color(0xFF75A143),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -164,7 +167,7 @@ class _CreateProjectState extends State<CreateProject> {
                 ),
               ),
             ),
-            Row(
+            const Row(
               children: [
                 Text(
                   'Periority',
@@ -191,8 +194,8 @@ class _CreateProjectState extends State<CreateProject> {
                         fontWeight: FontWeight.w400)),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 27),
+            const Padding(
+              padding: EdgeInsets.only(top: 27),
               child: Row(
                 children: [
                   Text(
@@ -210,7 +213,8 @@ class _CreateProjectState extends State<CreateProject> {
               children: [
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF92BB64), // Background color
+                      backgroundColor:
+                          const Color(0xFF92BB64), // Background color
                       foregroundColor: Colors.white, // Text color
                       elevation: 5, // Elevation (shadow)
                       padding: const EdgeInsets.symmetric(
@@ -243,7 +247,7 @@ class _CreateProjectState extends State<CreateProject> {
             )
           ],
         ),
-      )),
+      ),
       bottomNavigationBar: CustomNavigationBar(),
     );
   }

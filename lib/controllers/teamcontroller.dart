@@ -2,18 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class TeamController {
-  Future<String> createTeam(
+  Future<void> createTeam(
       [String? teamName, String? teamLead, List<String>? members]) async {
     Map<String, dynamic> payload = {
       'name': teamName,
-      'teamHead': FirebaseAuth.instance.currentUser!.uid,
       'teamLead': teamLead,
-      'members': members
+      'teamHead': FirebaseAuth.instance.currentUser!.uid,
     };
-    dynamic response =
-        await FirebaseFirestore.instance.collection('teams').add(payload);
 
-    return response.id.toString();
+    List<Map<String, dynamic>> memberList = [];
+    if (members != null) {
+      print(members.length);
+      for (var element in members) {
+        Map<String, dynamic> memberData = {
+          'user_ID': element,
+          'status': true,
+        };
+        memberList.add(memberData);
+      }
+      payload['members'] = memberList;
+      await FirebaseFirestore.instance.collection('teams').add(payload);
+    }
   }
 
   Future<List<Map<String, dynamic>>> getTeamsData() async {

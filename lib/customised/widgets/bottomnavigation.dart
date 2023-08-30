@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:team_management/src/auth/register/register.dart';
+import 'package:team_management/src/dashboard/components/admindashboard.dart';
+import 'package:team_management/src/menu/notifications.dart';
+import 'package:team_management/src/projects/components.dart/allprojects.dart';
+import 'package:team_management/src/team/createteam.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({super.key});
@@ -14,13 +18,20 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     return Container(
       color: const Color(0xFF272525),
       height: getHeight(context) * 0.08,
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             InkWell(
-              child: Column(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminDashboard(),
+                  ),
+                );
+              },
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -35,22 +46,36 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               ),
             ),
             InkWell(
-              child: Column(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AllProjects(),
+                  ),
+                );
+              },
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.calendar_month_outlined,
+                    Icons.folder_copy_outlined,
                     color: Colors.white,
                   ),
                   Text(
-                    'Calendar',
+                    'Projects',
                     style: TextStyle(color: Colors.white, fontSize: 12),
                   )
                 ],
               ),
             ),
             InkWell(
-              child: Column(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddTeam(),
+                  ),
+                );
+              },
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -65,15 +90,22 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               ),
             ),
             InkWell(
-              child: Column(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const Notifications(),
+                  ),
+                );
+              },
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.messenger_outline_rounded,
+                    Icons.notifications_active_outlined,
                     color: Colors.white,
                   ),
                   Text(
-                    'Message',
+                    'Notification',
                     style: TextStyle(color: Colors.white, fontSize: 12),
                   )
                 ],

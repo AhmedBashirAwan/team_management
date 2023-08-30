@@ -3,7 +3,6 @@ import 'package:team_management/src/menu/general.dart';
 import 'package:team_management/src/menu/notifications.dart';
 import 'package:team_management/src/menu/profile.dart';
 import 'package:team_management/src/menu/theme.dart';
-
 import '../../customised/widgets/bottomnavigation.dart';
 import '../Dashboard/screen/dashboard.dart';
 import '../auth/register/register.dart';
@@ -129,7 +128,8 @@ class _settingsState extends State<settings> {
                     'Settings',
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                 ],
               ),
             ),

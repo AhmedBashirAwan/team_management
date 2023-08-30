@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/src/auth/register/register.dart';

@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ModuleController {
-  Future<String?> addModuels(String moduelTitle, String projectId) async {
+  Future<String?> addModuels(
+      [String? moduelTitle, String? description, String? projectId]) async {
     Map<String, dynamic> payload = {
       'title': moduelTitle,
+      'description': description,
       'project_ID': projectId,
     };
-    await FirebaseFirestore.instance.collection('moduels').add(payload);
+    await FirebaseFirestore.instance.collection('modules').add(payload);
     return null;
   }
 

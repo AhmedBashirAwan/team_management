@@ -3,11 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_management/blok/authblock.dart';
-import 'package:team_management/src/dashboard/components/admindashboard.dart';
-import 'package:team_management/src/dashboard/screen/dashboard.dart';
-import 'package:team_management/src/projects/components.dart/adproject.dart';
-import 'package:team_management/src/projects/components.dart/allprojects.dart';
-import 'package:team_management/src/projects/components.dart/createproject.dart';
+import 'package:team_management/nav/bottomnavigationbar.dart';
 import 'package:team_management/theme/themechanger.dart';
 import 'package:team_management/theme/themedata.dart';
 import 'firebase_options.dart';
@@ -44,14 +40,13 @@ class _MyAppState extends State<MyApp> {
           darkTheme: ThemeDataRepository.darkTheme,
           themeMode: themeChanger.themeMode,
           debugShowCheckedModeBanner: false,
-          //home: const AdminDashboard(),
           home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return const AdProject();
+                return const BottomNavigation();
               } else {
-                return const AdProject();
+                return const BottomNavigation();
               }
             },
           ),

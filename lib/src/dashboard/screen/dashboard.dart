@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/controllers/teamcontroller.dart';
-import 'package:team_management/customised/widgets/bottomnavigation.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/components/drawer.dart';
 import '../../../controllers/usercontroller.dart';
@@ -71,6 +70,7 @@ class DashboardState extends State<Dashboard> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Row(
                       children: [
@@ -204,6 +204,61 @@ class DashboardState extends State<Dashboard> {
                     const Divider(
                       color: Colors.black,
                     ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    height: getHeight(context) * 0.05,
+                                    width: getwidth(context) * 0.1,
+                                    decoration: BoxDecoration(
+                                        color: Colors.amber,
+                                        borderRadius: BorderRadius.circular(7)),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  const Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Impact Point of Solutions',
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF3A3A3A)),
+                                      ),
+                                      Text(
+                                        'Software Project',
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF575757)),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 43),
+                                child: Divider(),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),
@@ -211,7 +266,6 @@ class DashboardState extends State<Dashboard> {
           );
         },
       ),
-      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

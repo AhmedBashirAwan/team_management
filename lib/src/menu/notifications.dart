@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:team_management/src/menu/settings.dart';
-import '../../customised/widgets/bottomnavigation.dart';
 import '../auth/register/register.dart';
 
 class Notifications extends StatefulWidget {
@@ -21,35 +19,35 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF272525),
+        title: Text('Notifications'),
+        actions: [
+          Padding(
+            padding:
+                const EdgeInsets.only(right: 10, top: 10, bottom: 6, left: 10),
+            child: Container(
+              width: getwidth(context) * 0.1,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 1.0,
+                ),
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
       body: Column(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 40, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const settings(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.arrow_back)),
-                Text(
-                  'Notifications',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const Spacer(),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             child: Column(
               children: [
                 SizedBox(
@@ -177,7 +175,6 @@ class _NotificationsState extends State<Notifications> {
           )
         ],
       ),
-      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

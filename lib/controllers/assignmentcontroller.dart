@@ -3,18 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AssignmentController {
   Future<String> createAssignments(
-      [String? assignTo,
+      {String? assignTo,
       bool? status,
       String? from,
       String? taskID,
       Timestamp? completedAt,
-      Timestamp? dueDate]) async {
+      String? dueDate,
+      String? priority}) async {
     Map<String, dynamic> payload = {
       'assign_to': assignTo,
-      'completedAt': completedAt,
       'dueDate': dueDate,
-      'status': status,
       'task_ID': taskID,
+      'completedAt': completedAt,
+      'priority': priority,
+      'status': false,
       'from': FirebaseAuth.instance.currentUser!.uid,
     };
     dynamic response =

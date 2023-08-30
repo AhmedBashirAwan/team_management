@@ -155,7 +155,6 @@ class _AddMembersState extends State<AddMembers> {
                       return GestureDetector(
                         onTap: () {
                           selectedMembers.add(userData['userId']);
-                          // print(selectedMembers);
                         },
                         child: Container(
                           margin: const EdgeInsets.only(top: 10),
