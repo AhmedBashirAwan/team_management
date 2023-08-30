@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:team_management/controllers/teamcontroller.dart';
+import 'package:team_management/controllers/dashboardController.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/dashboard/components/drawer.dart';
 import '../../../controllers/usercontroller.dart';
@@ -13,24 +13,46 @@ class Dashboard extends StatefulWidget {
 }
 
 class DashboardState extends State<Dashboard> {
-  List<String> projectIds = [];
-  List<String> projectNames = [];
-  Future<void> userProjects() async {
-    QuerySnapshot moduleSnapshot =
-        await FirebaseFirestore.instance.collection('projects').get();
+  List<String> tasks = [];
+  String display = '';
 
-    if (moduleSnapshot.docs.isNotEmpty) {
-      projectNames =
-          moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
-      projectIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
+  List<String> taskTitles = [];
+  List<String> taskDescriptions = [];
+  List<String> taskIds = [];
+  Future<void> tasksData() async {
+    taskTitles.clear();
+    taskIds.clear();
+    taskDescriptions.clear();
+
+    for (var element in tasks) {
+      DocumentSnapshot<Map<String, dynamic>> snaper = await FirebaseFirestore
+          .instance
+          .collection('tasks')
+          .doc(element)
+          .get();
+
+      taskTitles.add(snaper['title'] as String);
+      taskDescriptions.add(snaper['description'] as String);
+      taskIds.add(element);
     }
+  }
+
+  listDisplay() async {
+    if (display == 'ToDo') {
+      tasks = incompleteTasks;
+    } else if (display == 'Done') {
+      tasks = completeTasks;
+    } else {
+      tasks = aLLAssignedTasks;
+    }
+    await tasksData();
+    return;
   }
 
   @override
   void initState() {
     super.initState();
-    TeamController().getTeamsData();
-    UserController().getUserData();
+    DashboardController().fetchingEveryAssignment();
   }
 
   @override
@@ -62,7 +84,6 @@ class DashboardState extends State<Dashboard> {
       ),
       drawer: const Drawer(child: CustomDrawer()),
       body: FutureBuilder(
-        future: userProjects(),
         builder: (context, snapshot) {
           return ListView(
             shrinkWrap: true,
@@ -141,10 +162,15 @@ class DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
-                    const Row(
+                    Row(
                       children: [
                         InkWell(
-                          child: Padding(
+                          onTap: () {
+                            setState(() {
+                              display = 'ToDo';
+                            });
+                          },
+                          child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               'To Do',
@@ -158,21 +184,12 @@ class DashboardState extends State<Dashboard> {
                           ),
                         ),
                         InkWell(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'In Progress',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          child: Padding(
+                          onTap: () {
+                            setState(() {
+                              display = 'Done';
+                            });
+                          },
+                          child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               'Done',
@@ -186,7 +203,12 @@ class DashboardState extends State<Dashboard> {
                           ),
                         ),
                         InkWell(
-                          child: Padding(
+                          onTap: () {
+                            setState(() {
+                              display = 'All';
+                            });
+                          },
+                          child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               'All',
@@ -204,59 +226,76 @@ class DashboardState extends State<Dashboard> {
                     const Divider(
                       color: Colors.black,
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: getHeight(context) * 0.05,
-                                    width: getwidth(context) * 0.1,
-                                    decoration: BoxDecoration(
-                                        color: Colors.amber,
-                                        borderRadius: BorderRadius.circular(7)),
-                                  ),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  const Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                    FutureBuilder(
+                      future: listDisplay(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            itemCount: taskIds.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Column(
                                     children: [
-                                      Text(
-                                        'Impact Point of Solutions',
-                                        style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xFF3A3A3A)),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            height: getHeight(context) * 0.05,
+                                            width: getwidth(context) * 0.1,
+                                            decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius:
+                                                    BorderRadius.circular(7)),
+                                          ),
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                taskTitles[index],
+                                                style: const TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xFF3A3A3A)),
+                                              ),
+                                              Text(
+                                                taskDescriptions[index],
+                                                style: const TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xFF575757)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        'Software Project',
-                                        style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xFF575757)),
-                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 43),
+                                        child: Divider(),
+                                      )
                                     ],
-                                  )
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 43),
-                                child: Divider(),
-                              )
-                            ],
-                          ),
-                        );
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
                       },
                     )
                   ],
