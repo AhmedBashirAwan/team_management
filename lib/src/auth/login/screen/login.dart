@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/nav/developers_nav.dart';
 import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/forgetpassword/forgetpassword.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/auth/wellcome/screen/welcom.dart';
 import '../../../../customised/widgets/attachaccountbuttons.dart';
 import '../../../../globals.dart';
-import '../../../Dashboard/screen/dashboard.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -228,7 +228,7 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Dashboard(),
+                          builder: (context) => const DevelopersNav(),
                         ),
                       );
                     } else {

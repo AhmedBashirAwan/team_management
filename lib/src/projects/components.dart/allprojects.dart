@@ -34,14 +34,13 @@ class _AllProjectsState extends State<AllProjects> {
           .get();
       List<String> moduleIdsForProject =
           snap.docs.map((doc) => doc.id).toList();
-      print(modIDsList.isEmpty);
       modIDsList.add(moduleIdsForProject);
     }
   }
 
   @override
   void initState() {
-    userProjects();
+    // userProjects();
     super.initState();
   }
 

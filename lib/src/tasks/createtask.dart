@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:team_management/controllers/assignmentcontroller.dart';
 import 'package:team_management/controllers/taskscontroller.dart';
 import 'package:team_management/src/auth/register/register.dart';
+import 'package:team_management/src/tasks/alltasks.dart';
 
 class CreateProject extends StatefulWidget {
   CreateProject({super.key, required this.pro_ID, required this.mod_ID});
@@ -24,7 +25,6 @@ class _CreateProjectState extends State<CreateProject> {
   TextEditingController assignToController = TextEditingController();
   TextEditingController _taskDescription = TextEditingController();
   TextEditingController _taskTitle = TextEditingController();
-  TextEditingController _projectName = TextEditingController();
   List<String> priorityOptions = ['Medium', 'High', 'Low'];
   String? selectedPriority;
   String dueDate = '';
@@ -85,7 +85,6 @@ class _CreateProjectState extends State<CreateProject> {
   @override
   void initState() {
     fetchingAllUssers();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -120,12 +119,17 @@ class _CreateProjectState extends State<CreateProject> {
                     projectID: widget.pro_ID,
                     taskDescription: _taskDescription.text.trim(),
                   );
-
                   await AssignmentController().createAssignments(
                       priority: selectedPriority,
-                      assignTo: assignToController.text.trim(),
+                      assignTo: assignTo,
                       dueDate: dueDate.toString(),
                       taskID: newTask);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AllTasks(
+                          pro_ID: widget.pro_ID, mod_ID: widget.mod_ID),
+                    ),
+                  );
                 },
                 child: const Text('Create')),
           )
@@ -136,22 +140,6 @@ class _CreateProjectState extends State<CreateProject> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            // const Padding(
-            //   padding: EdgeInsets.only(top: 5),
-            //   child: Row(
-            //     children: [
-            //       Text(
-            //         'Project',
-            //         style: TextStyle(
-            //             fontFamily: 'Poppins',
-            //             fontSize: 12,
-            //             fontWeight: FontWeight.w500,
-            //             color: Color(0xFF575757)),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-
             const Padding(
               padding: EdgeInsets.only(top: 20),
               child: Row(
@@ -272,7 +260,7 @@ class _CreateProjectState extends State<CreateProject> {
                     teamLeadBottomSheet(context);
                   },
                   readOnly: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       suffixIconColor: Color(0xFFA8A8A8),
                       suffixIcon: Icon(
                         Icons.arrow_drop_down_outlined,
@@ -335,7 +323,7 @@ class _CreateProjectState extends State<CreateProject> {
               ),
             ),
             const Padding(
-              padding: const EdgeInsets.only(top: 27),
+              padding: EdgeInsets.only(top: 27),
               child: Row(
                 children: [
                   Text(
@@ -355,15 +343,13 @@ class _CreateProjectState extends State<CreateProject> {
                 children: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color(0xFF92BB64), // Background color
-                        foregroundColor: Colors.white, // Text color
-                        elevation: 5, // Elevation (shadow)
+                        backgroundColor: const Color(0xFF92BB64),
+                        foregroundColor: Colors.white,
+                        elevation: 5,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10), // Padding
+                            horizontal: 20, vertical: 10),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(30), // Border radius
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                       onPressed: () async {
@@ -416,6 +402,7 @@ class _CreateProjectState extends State<CreateProject> {
                               setState(() {
                                 assignToController.text = userName![index];
                                 assignTo = userIds![index];
+                                print(assignTo);
                               });
                               Navigator.pop(context);
                             },
@@ -470,169 +457,6 @@ class _CreateProjectState extends State<CreateProject> {
                   ),
                 );
               }),
-        );
-      },
-    );
-  }
-
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: getHeight(context) * 0.5,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: getHeight(context) * 0.04,
-                  child: TextField(
-                    controller: _projectName,
-                    decoration: const InputDecoration(
-                      hintText: '  Enter your Project Name',
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  itemCount: projectIds.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          _projectName.text = projectNames[index];
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 10),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: getHeight(context) * 0.05,
-                              width: getwidth(context) * 0.1,
-                              decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  projectNames[index],
-                                  style: const TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF3A3A3A),
-                                  ),
-                                ),
-                                const Text(
-                                  'Filter',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF575757),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _members(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: getHeight(context) * 0.5,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: getHeight(context) * 0.04,
-                  child: TextField(
-                    onTap: () {
-                      _showBottomSheet(context);
-                    },
-                    controller: _projectName,
-                    decoration: const InputDecoration(
-                        hintText: '  Enter your Project Name',
-                        hintStyle: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400)),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.amber,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Landing Page Design',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  'Landing Page Design',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
         );
       },
     );

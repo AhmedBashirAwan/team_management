@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:team_management/controllers/assignmentcontroller.dart';
+import 'package:team_management/controllers/taskscontroller.dart';
 import '../auth/register/register.dart';
 
 class AddNewTask extends StatefulWidget {
@@ -10,12 +14,56 @@ class AddNewTask extends StatefulWidget {
 }
 
 class _AddNewTaskState extends State<AddNewTask> {
+  String assignTo = '';
+  TextEditingController assignToController = TextEditingController();
+  DateTime? pickedDate;
+  String dueDate = '';
+  String? selectedPriority;
+
+  List<String>? userName = [];
+  List<String>? userIds = [];
+  List<String>? userEmail = [];
+  Future<void> fetchingAllUssers() async {
+    QuerySnapshot<Map<String, dynamic>> moduleSnapshot =
+        await FirebaseFirestore.instance.collection('userData').get();
+
+    userName =
+        moduleSnapshot.docs.map((doc) => doc['fullName'] as String).toList();
+    userIds =
+        moduleSnapshot.docs.map((doc) => doc['userId'] as String).toList();
+    userEmail =
+        moduleSnapshot.docs.map((doc) => doc['email'] as String).toList();
+  }
+
+  TextEditingController _taskDescription = TextEditingController();
+  TextEditingController _taskTitle = TextEditingController();
+  Future<void> dateTimePicker() async {
+    pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate!);
+      setState(() {
+        dueDate = formattedDate;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF272525),
-        leading: const Icon(Icons.arrow_back),
         title: const Text('Add New Task'),
       ),
       body: SingleChildScrollView(
@@ -26,8 +74,11 @@ class _AddNewTaskState extends State<AddNewTask> {
             children: [
               SizedBox(
                 height: getHeight(context) * 0.05,
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w400),
+                  controller: _taskTitle,
+                  decoration: const InputDecoration(
                       hintText: 'Task name',
                       hintStyle: TextStyle(
                           fontSize: 13,
@@ -65,7 +116,9 @@ class _AddNewTaskState extends State<AddNewTask> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await dateTimePicker();
+                        },
                         child: const Text('Set Date')),
                   ),
                 ],
@@ -94,11 +147,14 @@ class _AddNewTaskState extends State<AddNewTask> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey.shade200),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 10, bottom: 10, top: 15),
                   child: TextField(
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w400),
+                    controller: _taskDescription,
                     maxLines: null,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelStyle: TextStyle(fontSize: 12),
                       hintStyle:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
@@ -138,7 +194,11 @@ class _AddNewTaskState extends State<AddNewTask> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          selectedPriority = 'High';
+                        });
+                      },
                       child: const Text('High')),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -153,7 +213,11 @@ class _AddNewTaskState extends State<AddNewTask> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            selectedPriority = 'Medium';
+                          });
+                        },
                         child: const Text('Medium')),
                   ),
                   ElevatedButton(
@@ -167,7 +231,11 @@ class _AddNewTaskState extends State<AddNewTask> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          selectedPriority = 'low';
+                        });
+                      },
                       child: const Text('Low')),
                 ],
               ),
@@ -239,66 +307,75 @@ class _AddNewTaskState extends State<AddNewTask> {
                     color: const Color(0xFFEBFFD7),
                     borderRadius: BorderRadius.circular(7)),
                 height: getHeight(context) * 0.05,
-                child: const Row(
+                child: Row(
                   children: [
-                    Text('Invited Members'),
-                    Spacer(),
-                    Icon(Icons.arrow_drop_down)
+                    Text(assignTo.isNotEmpty
+                        ? assignToController.text
+                        : 'Select A Member'),
+                    const Spacer(),
+                    InkWell(
+                        onTap: () {
+                          teamLeadBottomSheet(context);
+                        },
+                        child: const Icon(Icons.arrow_drop_down))
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 7),
-                child: SizedBox(
-                  width: getwidth(context),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Container(
-                          height: getHeight(context) * 0.045,
-                          width: getwidth(context) * 0.24,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color(0xFFFEEEDF)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 7),
-                            child: Row(
-                              children: [
-                                Text('Sam S'),
-                                Spacer(),
-                                Icon(
-                                  Icons.close,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: getHeight(context) * 0.045,
-                        width: getwidth(context) * 0.24,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xFFFEEEDF)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 7),
-                          child: Row(
-                            children: [
-                              Text('Sam S'),
-                              Spacer(),
-                              Icon(
-                                Icons.close,
-                                size: 18,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 7),
+              //   child: SizedBox(
+              //     width: getwidth(context),
+              //     child: Row(
+              //       children: [
+              //         Padding(
+              //           padding: const EdgeInsets.only(right: 10),
+              //           child: Container(
+              //             height: getHeight(context) * 0.045,
+              //             width: getwidth(context) * 0.24,
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(20),
+              //                 color: const Color(0xFFFEEEDF)),
+              //             child: Padding(
+              //               padding: const EdgeInsets.symmetric(horizontal: 7),
+              //               child: Row(
+              //                 children: [
+              //                   Text('Sam S'),
+              //                   Spacer(),
+              //                   Icon(
+              //                     Icons.close,
+              //                     size: 18,
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //         Container(
+              //           height: getHeight(context) * 0.045,
+              //           width: getwidth(context) * 0.24,
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(20),
+              //               color: const Color(0xFFFEEEDF)),
+              //           child: Padding(
+              //             padding: const EdgeInsets.symmetric(horizontal: 7),
+              //             child: Row(
+              //               children: [
+              //                 Text('Sam S'),
+              //                 Spacer(),
+              //                 Icon(
+              //                   Icons.close,
+              //                   size: 18,
+              //                 )
+              //               ],
+              //             ),
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                height: getHeight(context) * 0.1,
               ),
               SizedBox(
                 height: getHeight(context) * 0.06,
@@ -314,13 +391,121 @@ class _AddNewTaskState extends State<AddNewTask> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      String? newTask = await TasksController().addTasks(
+                        tasksTitle: _taskTitle.text.trim(),
+                        modId: 'widget.mod_ID',
+                        projectID: 'widget.pro_ID',
+                        taskDescription: _taskDescription.text.trim(),
+                      );
+                      await AssignmentController().createAssignments(
+                          priority: selectedPriority,
+                          assignTo: assignToController.text.trim(),
+                          dueDate: dueDate.toString(),
+                          taskID: newTask);
+                    },
                     child: const Text('Add Task')),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void teamLeadBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: getHeight(context) * 0.5,
+          child: FutureBuilder(
+              future: fetchingAllUssers(),
+              builder: (context, snapshot) {
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: getHeight(context) * 0.04,
+                        child: TextField(
+                          controller: assignToController,
+                          decoration: const InputDecoration(
+                            hintText: 'Select a Team Member',
+                            hintStyle: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: userIds!.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                assignToController.text = userName![index];
+                                assignTo = userIds![index];
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: getHeight(context) * 0.05,
+                                    width: getwidth(context) * 0.1,
+                                    decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Image.network(
+                                      'https://i2-prod.gazettelive.co.uk/incoming/article20679579.ece/ALTERNATES/s615b/0_jwr_mga_260521willowgracecampbell.jpg',
+                                    ),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        userName![index],
+                                        style: const TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF3A3A3A),
+                                        ),
+                                      ),
+                                      Text(
+                                        userEmail![index],
+                                        style: const TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF575757),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        );
+      },
     );
   }
 }

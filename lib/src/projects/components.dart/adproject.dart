@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:team_management/controllers/projectcontroller.dart';
 import 'package:team_management/customised/widgets/bottomnavigation.dart';
 import 'package:team_management/src/auth/register/register.dart';
+import 'package:team_management/src/projects/components.dart/allprojects.dart';
 
 class AdProject extends StatefulWidget {
   const AdProject({super.key});
@@ -120,6 +121,11 @@ class _AdProjectState extends State<AdProject> {
                   onPressed: () {
                     ProjectController()
                         .createProject(_projectName.text.trim(), selectedID);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const AllProjects(),
+                      ),
+                    );
                   },
                   child: const Text('Create Project')),
             ),

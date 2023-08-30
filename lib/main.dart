@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_management/blok/authblock.dart';
-import 'package:team_management/nav/bottomnavigationbar.dart';
+import 'package:team_management/nav/developers_nav.dart';
+import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/theme/themechanger.dart';
 import 'package:team_management/theme/themedata.dart';
 import 'firebase_options.dart';
@@ -44,9 +45,9 @@ class _MyAppState extends State<MyApp> {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return const BottomNavigation();
+                return const DevelopersNav();
               } else {
-                return const BottomNavigation();
+                return const Login();
               }
             },
           ),
