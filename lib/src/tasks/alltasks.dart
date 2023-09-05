@@ -69,9 +69,9 @@ class _AllTasksState extends State<AllTasks> {
           .collection('assignments')
           .where('task_ID', isEqualTo: element)
           .get();
-      Map<String, dynamic> data = snapi.docs.first.data();
-      // taskStatus = snapi.docs.map((doc) => doc['status'].toString()).toList();
-      taskStatus.add(data['status'].toString());
+      // Map<String, dynamic> data = snapi.docs.first.data();
+      taskStatus = snapi.docs.map((doc) => doc['status'].toString()).toList();
+      // taskStatus.add(data['status'].toString());
     }
     print(taskStatus);
   }
