@@ -21,7 +21,7 @@ class _NotificationsState extends State<Notifications> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF272525),
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
         actions: [
           Padding(
             padding:

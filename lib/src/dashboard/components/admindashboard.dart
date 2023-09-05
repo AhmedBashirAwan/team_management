@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/src/auth/login/screen/login.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/moduels/components/all_modules.dart';
+import 'package:team_management/src/tasks/task_details.dart';
 import '../../projects/components.dart/adproject.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -24,7 +27,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
       projectIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
     }
-
+    modIDsList = [];
     for (var element in projectIds) {
       QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
           .instance
@@ -73,24 +76,38 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF272525),
+        // leading: InkWell(
+        //     onTap: () async {
+        //       await FirebaseAuth.instance.signOut();
+        //       Navigator.pushReplacement(
+        //           context, MaterialPageRoute(builder: (context) => Login()));
+        //     },
+        //     child: const Icon(Icons.arrow_back)),
         title: const Text('Home'),
         actions: [
           const Icon(Icons.search),
           Padding(
             padding:
                 const EdgeInsets.only(right: 10, top: 10, bottom: 6, left: 10),
-            child: Container(
-              width: getwidth(context) * 0.1,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 1.0,
+            child: InkWell(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
+              },
+              child: Container(
+                width: getwidth(context) * 0.1,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    width: 1.0,
+                  ),
                 ),
-              ),
-              child: ClipOval(
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80',
-                  fit: BoxFit.cover,
+                child: ClipOval(
+                  child: Image.network(
+                    'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -100,7 +117,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       body: FutureBuilder(
         builder: (context, snapshot) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
             child: ListView(
               shrinkWrap: true,
               children: [
@@ -251,79 +268,90 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            right: 20,
-                            bottom: 15,
-                          ),
-                          child: Material(
-                            elevation: 30,
-                            borderRadius: BorderRadius.circular(20),
-                            child: SizedBox(
-                              height: getHeight(context) * 0.09,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          border: Border.all(
-                                              width: 2, color: Colors.black12)),
-                                      height: 40,
-                                      width: 40,
-                                      child: const Center(
-                                        child: Text('50%'),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => TaskDetails(
+                                  task_ID: taskIds[index],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 20, bottom: 15, left: 10),
+                            child: Material(
+                              elevation: 8,
+                              borderRadius: BorderRadius.circular(20),
+                              child: SizedBox(
+                                height: getHeight(context) * 0.09,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            border: Border.all(
+                                                width: 2,
+                                                color: Colors.black12)),
+                                        height: 40,
+                                        width: 40,
+                                        child: const Center(
+                                          child: Text('50%'),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: getwidth(context) * 0.5,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                taskTitle[index],
-                                                style: const TextStyle(
-                                                    fontSize: 17,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Due date',
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color(0xFFA4A4A4)),
-                                              ),
-                                              Text(
-                                                'Work In Progress',
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color(0xFF75A143)),
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                      SizedBox(
+                                        width: getwidth(context) * 0.5,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  taskTitle[index],
+                                                  style: const TextStyle(
+                                                      fontSize: 17,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Due date',
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Color(0xFFA4A4A4)),
+                                                ),
+                                                Text(
+                                                  'Work In Progress',
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Color(0xFF75A143)),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 20,
-                                    )
-                                  ],
+                                      const Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 20,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

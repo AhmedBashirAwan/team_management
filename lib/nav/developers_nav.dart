@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team_management/src/Dashboard/screen/dashboard.dart';
 import 'package:team_management/src/menu/notifications.dart';
-import 'package:team_management/src/tasks/addnewtask.dart';
-
+import 'package:team_management/src/projects/components.dart/allprojects.dart';
 import '../src/calendar.dart';
 
 class DevelopersNav extends StatefulWidget {
@@ -17,7 +16,7 @@ class _DevelopersNavState extends State<DevelopersNav> {
 
   final List _pages = [
     const Dashboard(),
-    const AddNewTask(),
+    const AllProjects(),
     const Calendar(),
     const Notifications()
   ];

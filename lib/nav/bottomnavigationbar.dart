@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:team_management/src/dashboard/components/admindashboard.dart';
-import 'package:team_management/src/menu/notifications.dart';
 import 'package:team_management/src/projects/components.dart/allprojects.dart';
 import 'package:team_management/src/team/createteam.dart';
+import 'package:team_management/src/userAdd/adduser.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -18,7 +18,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     const AdminDashboard(),
     const AllProjects(),
     const AddTeam(),
-    const Notifications()
+    const AddUsers()
   ];
   _changeTab(int index) {
     setState(() {

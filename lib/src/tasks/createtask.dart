@@ -290,7 +290,7 @@ class _CreateProjectState extends State<CreateProject> {
                     height: getHeight(context) * 0.04,
                     child: DropdownButton<String>(
                       value: selectedPriority,
-                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      style: const TextStyle(fontSize: 20, color: Colors.black),
                       icon: const Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

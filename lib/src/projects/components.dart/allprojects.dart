@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/globals.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/projects/components.dart/adproject.dart';
 import '../../moduels/components/all_modules.dart';
@@ -14,15 +16,40 @@ class AllProjects extends StatefulWidget {
 class _AllProjectsState extends State<AllProjects> {
   List<String> projectIds = [];
   List<String> projectNames = [];
+  List<String> teamIds = [];
   List<List<String>> modIDsList = [];
   Future<void> userProjects() async {
-    QuerySnapshot moduleSnapshot =
-        await FirebaseFirestore.instance.collection('projects').get();
-
-    if (moduleSnapshot.docs.isNotEmpty) {
+    if (role == 'Manager') {
+      print('hello managers');
+      QuerySnapshot moduleSnapshot =
+          await FirebaseFirestore.instance.collection('projects').get();
       projectNames =
           moduleSnapshot.docs.map((doc) => doc['title'] as String).toList();
       projectIds = moduleSnapshot.docs.map((doc) => doc.id).toList();
+    } else if (role == 'Employee') {
+      QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
+          .instance
+          .collection('teams')
+          .where('members', arrayContains: {
+        'status': true,
+        'user_ID': FirebaseAuth.instance.currentUser!.uid
+      }).get();
+
+      teamIds = snap.docs.map((doc) => doc.id).toList();
+
+      projectIds = [];
+      projectNames = [];
+
+      for (var element in teamIds) {
+        QuerySnapshot<Map<String, dynamic>> hacer = await FirebaseFirestore
+            .instance
+            .collection('projects')
+            .where('team_ID', isEqualTo: element)
+            .get();
+        projectIds.addAll(hacer.docs.map((doc) => doc.id).toList());
+        projectNames
+            .addAll(hacer.docs.map((doc) => doc['title'] as String).toList());
+      }
     }
 
     modIDsList = [];
@@ -36,12 +63,6 @@ class _AllProjectsState extends State<AllProjects> {
           snap.docs.map((doc) => doc.id).toList();
       modIDsList.add(moduleIdsForProject);
     }
-  }
-
-  @override
-  void initState() {
-    // userProjects();
-    super.initState();
   }
 
   List<Color> itemColors = [
@@ -107,10 +128,8 @@ class _AllProjectsState extends State<AllProjects> {
                   future: userProjects(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      // Data is being fetched, show a loading indicator or placeholder
-                      return CircularProgressIndicator(); // Replace with your loading widget
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
-                      // Error occurred while fetching data
                       return Text('Error: ${snapshot.error}');
                     } else {
                       return ListView.builder(
@@ -134,7 +153,7 @@ class _AllProjectsState extends State<AllProjects> {
                                 );
                               },
                               child: Material(
-                                elevation: 20,
+                                elevation: 8,
                                 borderRadius: BorderRadius.circular(20),
                                 color: itemColors[index % itemColors.length],
                                 child: Padding(

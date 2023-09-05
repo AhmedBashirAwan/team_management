@@ -104,224 +104,228 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: getHeight(context) * 0.1,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: Colors.grey.shade700,
-              width: 1,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: getHeight(context) * 0.1,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.grey.shade700,
+                width: 1,
+              ),
+            ),
+            height: getHeight(context) * 0.1,
+            width: getwidth(context) * 0.6,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: getwidth(context) * 0.05,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: getHeight(context) * 0.06,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                            'https://i2-prod.gazettelive.co.uk/incoming/article20679579.ece/ALTERNATES/s615b/0_jwr_mga_260521willowgracecampbell.jpg'),
+                      ),
+                    )
+                  ],
+                ),
+                const VerticalDivider(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Impact It Solutions',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Workspace',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
+                    )
+                  ],
+                )
+              ],
             ),
           ),
-          height: getHeight(context) * 0.1,
-          width: getwidth(context) * 0.6,
-          child: Row(
-            children: [
-              SizedBox(
-                width: getwidth(context) * 0.05,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: getHeight(context) * 0.06,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                          'https://i2-prod.gazettelive.co.uk/incoming/article20679579.ece/ALTERNATES/s615b/0_jwr_mga_260521willowgracecampbell.jpg'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const settings(),
+                      ),
+                    );
+                  },
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.settings),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Settings',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-              const VerticalDivider(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Impact It Solutions',
-                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        'Workspace',
-                        style: Theme.of(context).textTheme.titleSmall,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Notifications(),
                       ),
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const settings(),
+                    );
+                  },
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.notifications_active_outlined),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Notification',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
                     ),
-                  );
-                },
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.settings),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Settings',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
                   ),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Notifications(),
+                InkWell(
+                  onTap: () {},
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.favorite_border_outlined),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Support',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
                     ),
-                  );
-                },
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.notifications_active_outlined),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Notification',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
                   ),
                 ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.favorite_border_outlined),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Support',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () => _showRateAppDialog(context),
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.thumb_up_alt_outlined),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Rate the App',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.question_mark),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Whats new',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ThemeButton(),
+                InkWell(
+                  onTap: () => _showRateAppDialog(context),
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.thumb_up_alt_outlined),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Rate the App',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
                     ),
-                  );
-                },
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.wb_sunny_outlined),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Themes',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
                   ),
                 ),
-              ),
-              InkWell(
-                onTap: () async {
-                  try {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => const Login()));
-                  } catch (e) {
-                    print('Error signing out: $e');
-                  }
-                },
-                child: SizedBox(
-                  height: getHeight(context) * 0.07,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.logout),
-                      SizedBox(
-                        width: getwidth(context) * 0.05,
-                      ),
-                      Text(
-                        'Log Out',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
+                InkWell(
+                  onTap: () {},
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.question_mark),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Whats new',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ThemeButton(),
+                      ),
+                    );
+                  },
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.wb_sunny_outlined),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Themes',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    try {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()));
+                    } catch (e) {
+                      print('Error signing out: $e');
+                    }
+                  },
+                  child: SizedBox(
+                    height: getHeight(context) * 0.07,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.logout),
+                        SizedBox(
+                          width: getwidth(context) * 0.05,
+                        ),
+                        Text(
+                          'Log Out',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

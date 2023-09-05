@@ -46,7 +46,6 @@ class _CalendarState extends State<Calendar> {
   List<String> taskss = [];
   Future<void> assignmentsWeek() async {
     for (var element in nextDays) {
-      print(element);
       try {
         QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
             .instance
@@ -137,7 +136,7 @@ class _CalendarState extends State<Calendar> {
                 shrinkWrap: true,
                 itemCount: nextDays.length,
                 itemBuilder: (context, index) {
-                  return Container(
+                  return SizedBox(
                     height: getHeight(context) * 0.1,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),

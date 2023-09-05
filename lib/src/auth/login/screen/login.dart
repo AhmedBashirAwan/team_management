@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/main.dart';
+import 'package:team_management/nav/bottomnavigationbar.dart';
 import 'package:team_management/nav/developers_nav.dart';
 import 'package:team_management/src/auth/createaccount/screen/createaccount.dart';
 import 'package:team_management/src/auth/forgetpassword/forgetpassword.dart';
@@ -19,6 +22,22 @@ class _LoginState extends State<Login> {
   bool _passwordVisible = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String role = '';
+  Future<void> roleCheck() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
+          .instance
+          .collection('userData')
+          .where('userId', isEqualTo: USER_ID)
+          .get();
+
+      dynamic data = snap.docs.first.data();
+      role = data['roles'];
+      print(role);
+    } catch (e) {
+      print('role issue');
+    }
+  }
 
   @override
   void dispose() {
@@ -219,18 +238,32 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if (_emailController.text.isNotEmpty &&
                         _passwordController.text.isNotEmpty) {
-                      UserCredential userCredential = await FirebaseAuth
+                      UserCredential userCredential =await FirebaseAuth
                           .instance
                           .signInWithEmailAndPassword(
                               email: _emailController.text.trim(),
                               password: _passwordController.text.trim());
                       USER_ID = userCredential.user!.uid;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DevelopersNav(),
-                        ),
-                      );
+                      await roleCheck();
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                        builder: (context) {
+                          if (role == 'Manager') {
+                            return const BottomNavigation();
+                          } else {
+                            return const DevelopersNav();
+                          }
+                        },
+                      ), (route) => false);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) {
+                      //     if (role == 'Manager') {
+                      //       return const BottomNavigation();
+                      //     } else {
+                      //       return const DevelopersNav();
+                      //     }
+                      //   }),
+                      // );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

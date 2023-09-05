@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../globals.dart';
+import 'package:team_management/globals.dart';
 
 class UserController {
-  Future<void> addUserDetails(String fullName, String email) async {
+  Future<void> addUserDetails(
+      {String? fullName, String? email, String? roles}) async {
     Map<String, dynamic> payload = {
+      'roles': roles,
       'userId': USER_ID,
       'email': email,
       'fullName': fullName,

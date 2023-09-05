@@ -1,9 +1,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:team_management/globals.dart';
+import 'package:team_management/main.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/tasks/createtask.dart';
+import 'package:team_management/src/tasks/task_details.dart';
 
 class AllTasks extends StatefulWidget {
   AllTasks({super.key, required this.mod_ID, required this.pro_ID});
@@ -19,18 +24,47 @@ class _AllTasksState extends State<AllTasks> {
   List<String> taskIds = [];
 
   Future<void> fetchingTasks() async {
-    QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore.instance
-        .collection('tasks')
-        .where('mod_ID', isEqualTo: widget.mod_ID)
-        .get();
+    if (role == 'Manager') {
+      QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
+          .instance
+          .collection('tasks')
+          .where('mod_ID', isEqualTo: widget.mod_ID)
+          .get();
 
-    taskTitle = snap.docs.map((doc) => doc['title'] as String).toList();
-    taskIds = snap.docs.map((doc) => doc.id).toList();
+      taskTitle = snap.docs.map((doc) => doc['title'] as String).toList();
+      taskIds = snap.docs.map((doc) => doc.id).toList();
+    } else {
+      QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
+          .instance
+          .collection('assignments')
+          .where('assign_to', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      taskIds = snap.docs.map((doc) => doc['task_ID'] as String).toList();
+
+      // Clear the taskTitle list before populating it.
+      taskTitle = [];
+
+      for (var element in taskIds) {
+        DocumentSnapshot<Map<String, dynamic>> geo = await FirebaseFirestore
+            .instance
+            .collection('tasks')
+            .doc(element)
+            .get();
+        Map<String, dynamic>? titleData = geo.data();
+
+        // Check if titleData contains 'title' key and append it to the list.
+        if (titleData!['mod_ID'] == widget.mod_ID &&
+            titleData.containsKey('title')) {
+          taskTitle.add(titleData['title'] as String);
+        }
+      }
+    }
   }
 
   @override
   void initState() {
-    fetchingTasks();
+    // fetchingTasks();
     // TODO: implement initState
     super.initState();
   }
@@ -56,80 +90,91 @@ class _AllTasksState extends State<AllTasks> {
                 future: fetchingTasks(),
                 builder: (context, snapshot) {
                   return ListView.builder(
-                    itemCount: taskIds.length,
+                    itemCount: taskTitle.length,
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            right: 20, bottom: 15, left: 20),
-                        child: Material(
-                          elevation: 30,
-                          borderRadius: BorderRadius.circular(20),
-                          child: SizedBox(
-                            height: getHeight(context) * 0.09,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        border: Border.all(
-                                            width: 2, color: Colors.black12)),
-                                    height: 40,
-                                    width: 40,
-                                    child: const Center(
-                                      child: Text('50%'),
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => TaskDetails(
+                                      task_ID: taskIds[index],
+                                    )),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 20, bottom: 15, left: 20),
+                          child: Material(
+                            elevation: 30,
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox(
+                              height: getHeight(context) * 0.09,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          border: Border.all(
+                                              width: 2, color: Colors.black12)),
+                                      height: 40,
+                                      width: 40,
+                                      child: const Center(
+                                        child: Text('50%'),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: getwidth(context) * 0.5,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              taskTitle[index],
-                                              style: const TextStyle(
-                                                  fontSize: 17,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Due date',
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xFFA4A4A4)),
-                                            ),
-                                            Text(
-                                              'Work In Progress',
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xFF75A143)),
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                    SizedBox(
+                                      width: getwidth(context) * 0.5,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                taskTitle[index],
+                                                style: const TextStyle(
+                                                    fontSize: 17,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Due date',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Color(0xFFA4A4A4)),
+                                              ),
+                                              Text(
+                                                'Work In Progress',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Color(0xFF75A143)),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 20,
-                                  )
-                                ],
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

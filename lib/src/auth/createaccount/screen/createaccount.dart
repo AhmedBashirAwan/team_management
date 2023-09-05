@@ -25,7 +25,6 @@ class _CreateAccountState extends State<CreateAccount> {
   final languagesController = TextEditingController();
   final technologiesController = TextEditingController();
   String _emailError = '';
-  bool isReadOnly = true;
 
   void _validateEmail(String value) {
     if (value.isEmpty) {
@@ -79,6 +78,7 @@ class _CreateAccountState extends State<CreateAccount> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
@@ -90,7 +90,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ],
               ),
               Text(
-                'Create an account, it less then a minute. enter your email and password.',
+                'It less then a minute. enter your email and password.',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               SizedBox(
@@ -111,6 +111,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     Expanded(
                       child: TextField(
+                        // maxLength: 12,
                         controller: fullNameController,
                         style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: const Color(0xFF92BB64),
@@ -260,12 +261,13 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     Expanded(
                       child: TextField(
+                        readOnly: true,
                         controller: technologiesController,
                         onSubmitted: (value) {},
                         style: Theme.of(context).textTheme.titleSmall,
                         cursorColor: const Color(0xFF92BB64),
                         decoration: InputDecoration(
-                          hintText: 'Technologies',
+                          hintText: 'Role in Organization',
                           hintStyle: Theme.of(context).textTheme.titleSmall,
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -276,72 +278,78 @@ class _CreateAccountState extends State<CreateAccount> {
                           disabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                          enabled: isReadOnly,
                         ),
                       ),
                     ),
-                    IconTheme(
-                      data: const IconThemeData(color: Color(0xFF92BB64)),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isReadOnly = !isReadOnly;
-                          });
-                        },
-                        icon: const Icon(Icons.arrow_drop_down),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: getHeight(context) * 0.02,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1.0,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: getwidth(context) * 0.03,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: languagesController,
-                        onSubmitted: (value) {},
-                        style: Theme.of(context).textTheme.titleSmall,
-                        cursorColor: const Color(0xFF92BB64),
-                        decoration: InputDecoration(
-                          hintText: 'Languages',
-                          hintStyle: Theme.of(context).textTheme.titleSmall,
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          disabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          enabled: isReadOnly,
+                    PopupMenuButton<String>(
+                      onSelected: (value) {
+                        setState(() {
+                          technologiesController.text = value;
+                        });
+                      },
+                      itemBuilder: (BuildContext context) => [
+                        const PopupMenuItem<String>(
+                          value: 'Employee',
+                          child: Text('Employee'),
                         ),
-                      ),
-                    ),
-                    IconTheme(
-                      data: IconThemeData(color: Colors.blue.shade700),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_drop_down),
-                      ),
-                    ),
+                        const PopupMenuItem<String>(
+                          value: 'Manager',
+                          child: Text('Manger'),
+                        ),
+                      ],
+                      child: const Icon(Icons.arrow_drop_down_outlined),
+                    )
                   ],
                 ),
               ),
+              // SizedBox(
+              //   height: getHeight(context) * 0.02,
+              // ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(5),
+              //     border: Border.all(
+              //       color: Colors.grey,
+              //       width: 1.0,
+              //     ),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       SizedBox(
+              //         width: getwidth(context) * 0.03,
+              //       ),
+              //       Expanded(
+              //         child: TextField(
+              //           controller: languagesController,
+              //           onSubmitted: (value) {},
+              //           style: Theme.of(context).textTheme.titleSmall,
+              //           cursorColor: const Color(0xFF92BB64),
+              //           decoration: InputDecoration(
+              //             hintText: 'Languages',
+              //             hintStyle: Theme.of(context).textTheme.titleSmall,
+              //             enabledBorder: const UnderlineInputBorder(
+              //               borderSide: BorderSide(color: Colors.transparent),
+              //             ),
+              //             focusedBorder: const UnderlineInputBorder(
+              //               borderSide: BorderSide(color: Colors.transparent),
+              //             ),
+              //             disabledBorder: const UnderlineInputBorder(
+              //               borderSide: BorderSide(color: Colors.transparent),
+              //             ),
+              //             enabled: isReadOnly,
+              //           ),
+              //         ),
+              //       ),
+              //       IconTheme(
+              //         data: IconThemeData(color: Colors.blue.shade700),
+              //         child: IconButton(
+              //           onPressed: () {},
+              //           icon: const Icon(Icons.arrow_drop_down),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: getHeight(context) * 0.02,
               ),
@@ -374,8 +382,9 @@ class _CreateAccountState extends State<CreateAccount> {
                         );
                         USER_ID = userCredential.user!.uid;
                         await UserController().addUserDetails(
-                            fullNameController.text.trim(),
-                            emailController.text.trim());
+                            fullName: fullNameController.text.trim(),
+                            email: emailController.text.trim(),
+                            roles: technologiesController.text.trim());
                         Navigator.push(
                           context,
                           MaterialPageRoute(
