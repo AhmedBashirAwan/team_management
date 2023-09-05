@@ -16,16 +16,17 @@ class TaskDetails extends StatefulWidget {
 }
 
 class _TaskDetailsState extends State<TaskDetails> {
-  String projectName = '';
-  String modName = '';
-  String taskName = '';
-  String taskDescription = '';
-  String assignTo = '';
-  String dueDate = '';
-  String priority = '';
-  String status = '';
-  String from = '';
+  String? projectName = '';
+  String? modName = '';
+  String? taskName = '';
+  String? taskDescription = '';
+  String? assignTo = '';
+  String? dueDate = '';
+  String? priority = '';
+  String? status = '';
+  String? from = '';
   Future<void> fetchingDetails() async {
+    //getting the doc of current task
     DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
         .instance
         .collection('tasks')
@@ -34,9 +35,8 @@ class _TaskDetailsState extends State<TaskDetails> {
 
     Map<String, dynamic>? data = snap.data();
     taskName = data!['title'];
-
     taskDescription = data['description'];
-
+    // getting the projects data using pro_ID
     DocumentSnapshot<Map<String, dynamic>> projectSnap = await FirebaseFirestore
         .instance
         .collection('projects')
@@ -44,7 +44,7 @@ class _TaskDetailsState extends State<TaskDetails> {
         .get();
     Map<String, dynamic>? proData = projectSnap.data();
     projectName = proData!['title'];
-
+    // getting the module data using mod_ID
     DocumentSnapshot<Map<String, dynamic>> modSnap = await FirebaseFirestore
         .instance
         .collection('modules')
@@ -55,18 +55,17 @@ class _TaskDetailsState extends State<TaskDetails> {
   }
 
   Future<void> fetchingAssignmentDetails() async {
+    //getting the currents tasks assignments
     QuerySnapshot<Map<String, dynamic>> snapo = await FirebaseFirestore.instance
         .collection('assignments')
         .where('task_ID', isEqualTo: widget.task_ID)
         .get();
 
     QueryDocumentSnapshot<Map<String, dynamic>> data = snapo.docs.first;
-
     dueDate = data['dueDate'];
     priority = data['priority'];
-
     status = data['status'].toString();
-
+    // assignto data
     QuerySnapshot<Map<String, dynamic>> assigni = await FirebaseFirestore
         .instance
         .collection('userData')
@@ -79,7 +78,7 @@ class _TaskDetailsState extends State<TaskDetails> {
     } else {
       assignTo = 'Not Found';
     }
-
+//asssign from data
     QuerySnapshot<Map<String, dynamic>> assignfrom = await FirebaseFirestore
         .instance
         .collection('userData')
@@ -114,19 +113,62 @@ class _TaskDetailsState extends State<TaskDetails> {
             child: const Icon(Icons.arrow_back)),
         title: Row(
           children: [
-            Text(taskName),
+            FutureBuilder(
+              future: fetchingDetails(),
+              builder: (context, snapshot) {
+                return Text(taskName!);
+              },
+            ),
             const Spacer(),
-            Container(
-                height: getHeight(context) * 0.05,
-                width: getwidth(context) * 0.25,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Center(
-                    child: Text(
-                  status == 'true' ? 'Done' : 'Working',
-                  style: const TextStyle(fontSize: 15, color: Colors.black),
-                ))),
+            InkWell(
+              onTap: () async {
+                QuerySnapshot<Map<String, dynamic>> snap =
+                    await FirebaseFirestore.instance
+                        .collection('assignments')
+                        .where('task_ID', isEqualTo: widget.task_ID)
+                        .get();
+
+                QueryDocumentSnapshot<Map<String, dynamic>> task =
+                    snap.docs.first;
+
+                // Update 'status' and 'completedAt' fields
+                await task.reference.update({
+                  'status': true,
+                  'completedAt': DateTime.now().toLocal().toString(),
+                });
+
+                setState(() {
+                  status = 'true';
+                });
+              },
+              child: Container(
+                  height: getHeight(context) * 0.05,
+                  width: getwidth(context) * 0.25,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        status == 'true' ? 'Done' : 'Working',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: status == 'true'
+                              ? const Color(0xFF92BB64)
+                              : Colors.black,
+                        ),
+                      ),
+                      Icon(
+                        status == 'true' ? Icons.check : Icons.more_horiz,
+                        color: status == 'true'
+                            ? const Color(0xFF92BB64)
+                            : Colors.black,
+                      )
+                    ],
+                  ))),
+            ),
           ],
         ),
       ),
@@ -155,10 +197,10 @@ class _TaskDetailsState extends State<TaskDetails> {
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
-                            height: getHeight(context)*0.01,
+                            height: getHeight(context) * 0.01,
                           ),
                           Text(
-                            projectName,
+                            projectName!,
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400),
                           ),
@@ -173,10 +215,10 @@ class _TaskDetailsState extends State<TaskDetails> {
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
-                            height: getHeight(context)*0.01,
+                            height: getHeight(context) * 0.01,
                           ),
                           Text(
-                            modName,
+                            modName!,
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400),
                           ),
@@ -203,7 +245,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                               color: const Color(0xFF92BB64)),
                           child: Center(
                               child: Text(
-                            priority,
+                            priority!,
                             style: const TextStyle(color: Colors.white),
                           ))),
                     ],
@@ -231,7 +273,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                       padding: const EdgeInsets.only(left: 20),
                       child: Row(
                         children: [
-                          Text(assignTo),
+                          Text(assignTo!),
                         ],
                       ),
                     )),
@@ -257,7 +299,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                       padding: const EdgeInsets.only(left: 20),
                       child: Row(
                         children: [
-                          Text(from),
+                          Text(from!),
                         ],
                       ),
                     )),

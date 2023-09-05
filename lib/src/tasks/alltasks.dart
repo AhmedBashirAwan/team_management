@@ -2,10 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:team_management/globals.dart';
-import 'package:team_management/main.dart';
 import 'package:team_management/src/auth/register/register.dart';
 import 'package:team_management/src/tasks/createtask.dart';
 import 'package:team_management/src/tasks/task_details.dart';
@@ -22,7 +20,7 @@ class AllTasks extends StatefulWidget {
 class _AllTasksState extends State<AllTasks> {
   List<String> taskTitle = [];
   List<String> taskIds = [];
-
+  List<String> taskStatus = [];
   Future<void> fetchingTasks() async {
     if (role == 'Manager') {
       QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
@@ -62,6 +60,22 @@ class _AllTasksState extends State<AllTasks> {
     }
   }
 
+  Future<void> checkStatus() async {
+    print(taskIds);
+    taskStatus = [];
+    for (var element in taskIds) {
+      QuerySnapshot<Map<String, dynamic>> snapi = await FirebaseFirestore
+          .instance
+          .collection('assignments')
+          .where('task_ID', isEqualTo: element)
+          .get();
+      Map<String, dynamic> data = snapi.docs.first.data();
+      // taskStatus = snapi.docs.map((doc) => doc['status'].toString()).toList();
+      taskStatus.add(data['status'].toString());
+    }
+    print(taskStatus);
+  }
+
   @override
   void initState() {
     // fetchingTasks();
@@ -79,7 +93,12 @@ class _AllTasksState extends State<AllTasks> {
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back)),
-        title: const Text('All Tasks'),
+        title: FutureBuilder(
+          // future: checkStatus(),
+          builder: (context, snapshot) {
+            return Text('All Tasks');
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -158,11 +177,19 @@ class _AllTasksState extends State<AllTasks> {
                                                     fontSize: 13,
                                                     color: Color(0xFFA4A4A4)),
                                               ),
-                                              Text(
-                                                'Work In Progress',
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color(0xFF75A143)),
+                                              FutureBuilder(
+                                                future: checkStatus(),
+                                                builder: (context, snapshot) {
+                                                  return Text(
+                                                    // taskStatus[index] == 'false'
+                                                    //     ? 'Work in Progress'
+                                                    'Done',
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF75A143)),
+                                                  );
+                                                },
                                               )
                                             ],
                                           )

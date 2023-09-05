@@ -33,7 +33,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Future<void> roleCheck() async {
     try {
-      QuerySnapshot<Map<String, dynamic>>  snap = await FirebaseFirestore
+      QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
           .instance
           .collection('userData')
           .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)

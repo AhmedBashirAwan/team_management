@@ -157,7 +157,7 @@ class _CalendarState extends State<Calendar> {
                                       height: 1,
                                       width: getwidth(context) * 0.65,
                                       decoration:
-                                          BoxDecoration(color: Colors.black45),
+                                         const BoxDecoration(color: Colors.black45),
                                     ),
                                   )
                                 ],
@@ -174,7 +174,7 @@ class _CalendarState extends State<Calendar> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           color: const Color(0xFFFEEEDF)),
-                                      child: Center(
+                                      child: const Center(
                                           child: Text('Landing Page Design')),
                                     ),
                                   )

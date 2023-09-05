@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:team_management/controllers/assignmentcontroller.dart';
@@ -21,27 +22,61 @@ class CreateProject extends StatefulWidget {
 class _CreateProjectState extends State<CreateProject> {
   DateTime? pickedDate;
   String assignTo = '';
-  late String priority;
+  String priority="Medium";
   TextEditingController assignToController = TextEditingController();
   TextEditingController _taskDescription = TextEditingController();
   TextEditingController _taskTitle = TextEditingController();
   List<String> priorityOptions = ['Medium', 'High', 'Low'];
-  String? selectedPriority;
+  String? selectedPriority='Medium';
   String dueDate = '';
 
   List<String>? userName = [];
   List<String>? userIds = [];
   List<String>? userEmail = [];
-  Future<void> fetchingAllUssers() async {
-    QuerySnapshot<Map<String, dynamic>> moduleSnapshot =
-        await FirebaseFirestore.instance.collection('userData').get();
 
-    userName =
-        moduleSnapshot.docs.map((doc) => doc['fullName'] as String).toList();
-    userIds =
-        moduleSnapshot.docs.map((doc) => doc['userId'] as String).toList();
-    userEmail =
-        moduleSnapshot.docs.map((doc) => doc['email'] as String).toList();
+  Future<void> fetchingAllUsers() async {
+    // Getting teams Id from pro_ID
+    DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
+        .instance
+        .collection('projects')
+        .doc(widget.pro_ID)
+        .get();
+    Map<String, dynamic>? teamId = snap.data();
+
+    // Getting membersIds from the team members
+    DocumentSnapshot<Map<String, dynamic>> snapper = await FirebaseFirestore
+        .instance
+        .collection('teams')
+        .doc(teamId!['team_ID'])
+        .get();
+    Map<String, dynamic>? teamData = snapper.data();
+    List<dynamic> members = teamData!['members'];
+
+    List<String> desiredMember = [];
+    for (var member in members) {
+      desiredMember.add(member['user_ID']);
+    }
+
+    // Clear existing data
+    userName = [];
+    userIds = [];
+    userEmail = [];
+
+    // Fetch user data for each desired member
+    for (var element in desiredMember) {
+      QuerySnapshot<Map<String, dynamic>> hacker = await FirebaseFirestore
+          .instance
+          .collection('userData')
+          .where('userId', isEqualTo: element)
+          .get();
+
+      // Check if any documents were found for the user ID
+      if (hacker.docs.isNotEmpty) {
+        userName!.add(hacker.docs.first['fullName'] as String);
+        userIds!.add(hacker.docs.first['userId'] as String);
+        userEmail!.add(hacker.docs.first['email'] as String);
+      }
+    }
   }
 
   TextEditingController leadController = TextEditingController();
@@ -84,7 +119,7 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   void initState() {
-    fetchingAllUssers();
+    fetchingAllUsers();
     super.initState();
   }
 
@@ -158,6 +193,8 @@ class _CreateProjectState extends State<CreateProject> {
             SizedBox(
               height: getHeight(context) * 0.05,
               child: TextField(
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                 onTap: () {},
                 controller: _taskTitle,
                 decoration: const InputDecoration(
@@ -191,6 +228,8 @@ class _CreateProjectState extends State<CreateProject> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500),
                   controller: _taskDescription,
                   decoration: const InputDecoration(
                       hintText: 'Add Description',
@@ -253,8 +292,10 @@ class _CreateProjectState extends State<CreateProject> {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: SizedBox(
-                height: getHeight(context) * 0.035,
+                height: getHeight(context) * 0.044,
                 child: TextField(
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500),
                   controller: assignToController,
                   onTap: () {
                     teamLeadBottomSheet(context);
@@ -372,7 +413,7 @@ class _CreateProjectState extends State<CreateProject> {
         return SizedBox(
           height: getHeight(context) * 0.5,
           child: FutureBuilder(
-              future: fetchingAllUssers(),
+              future: fetchingAllUsers(),
               builder: (context, snapshot) {
                 return SingleChildScrollView(
                   child: Column(
@@ -381,6 +422,8 @@ class _CreateProjectState extends State<CreateProject> {
                       SizedBox(
                         height: getHeight(context) * 0.04,
                         child: TextField(
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500),
                           controller: assignToController,
                           decoration: const InputDecoration(
                             hintText: 'Select a Team Member',
